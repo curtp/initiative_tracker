@@ -1,4 +1,4 @@
-# Init Tracker
+# Initiative Tracker
 Discord bot for tracking initiative for RPG games
 
 This is a work in progress and not ready for general use. Message me if you'd like to try it out. There is a very limited number of servers allowed at this time.
