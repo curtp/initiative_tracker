@@ -1,0 +1,12 @@
+version: "3.3"
+services:
+
+  init-tracker-bot:
+    build: .
+    container_name: init_tracker_bot
+    ports:
+      - "8080:8080"
+    restart: always
+    command: "bundle exec ruby init_tracker.rb"
+    volumes:
+      - ./:/init_tracker

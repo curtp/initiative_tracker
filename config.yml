@@ -1,0 +1,2 @@
+log_file: "/init_tracker/logs/init_tracker.log"
+database_file: "/init_tracker/data/init_tracker.db"
