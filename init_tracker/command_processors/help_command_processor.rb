@@ -26,7 +26,7 @@ module InitTracker
         event << "!init stop - Stops initiative for the channel"
         event << " "
         event << "**-- Add/Remove Characters --**"
-        event << "!init add '[character name]' - Adds the character to initiative: !init add 'By Tor'"
+        event << "!init add '[character name] [dice]' - Adds the character to initiative: !init add 'By Tor' 2d6"
         event << "!init remove [position] - Removes the character from the position: !init remove 2"
         event << " "
         event << "**-- Who's Up? --**"
