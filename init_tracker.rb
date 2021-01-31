@@ -21,7 +21,7 @@ InitTracker::Database::Migration.migrate(:up)
 # Establish the bot and connect
 bot = Discordrb::Commands::CommandBot.new(token: ENV["BOT_TOKEN"], prefix: "!")
 # Create the command for the bot and process the events
-bot.command(:init, aliases: [:o], description: "Master command for communicating with the Init Tracker") do |event|
+bot.command(:init, aliases: [:i], description: "Master command for communicating with the Init Tracker") do |event|
   InitTracker::CommandProcessors::InitTrackerCommandProcessor.execute(InitTracker::Models::CommandFactory.create_command_for_event(event))
 end
 
