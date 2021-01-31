@@ -40,6 +40,9 @@ module InitTracker
         event << "**-- Re-roll Initiative --**"
         event << "!init reroll - Re-rolls initiative for the current characters"
         event << " "
+        event << "**-- Remove Characters --**"
+        event << "!init remove [position] - Removes the character from the position: !init remove 2"
+        event << " "
         event << "!init help - Display this help message <https://github.com/curtp/initiative_tracker>"
       end
 
