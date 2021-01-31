@@ -10,13 +10,10 @@ module InitTracker
         validation_result = validate_command
         InitTrackerLogger.log.debug {"StopCommandProcessor.process: validation result: #{validation_result}"}
         if validation_result[:valid]
-          if initiative_started?
-            # Remove the init
-            init = find_init
-            if init.present?
-              init.destroy
-              command.event << "End of initiative."
-            end
+          init = find_init
+          if init.present?
+            init.destroy
+            command.event << "End of initiative."
           else
             result[:success] = false
             result[:error_message] = initiative_not_started_message

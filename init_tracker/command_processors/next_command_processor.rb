@@ -11,13 +11,10 @@ module InitTracker
         InitTrackerLogger.log.debug { "NextCommandProcessor.process: validation result: #{validation_result}" }
 
         if validation_result[:valid]
-          if initiative_started?
-
-            init = find_init
-            if init.present?
-              init.next!(command.position_number)
-              print_init(init)
-            end
+          init = find_init
+          if init.present?
+            init.next!(command.position_number)
+            print_init(init)
           else
             result[:success] = false
             result[:error_message] = initiative_not_started_message

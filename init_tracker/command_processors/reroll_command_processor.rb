@@ -9,9 +9,8 @@ module InitTracker
         validation_result = validate_command
         InitTrackerLogger.log.debug { "RerollCommandProcessor.process: validation result: #{validation_result}" }
         if validation_result[:valid]
-          if initiative_started?
-            # Remove the init
-            init = find_init
+          init = find_init
+          if init.present?
             if init.present?
               init.reroll!
               print_init(init)

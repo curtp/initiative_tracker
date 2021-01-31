@@ -10,8 +10,8 @@ module InitTracker
         validation_result = validate_command
         InitTrackerLogger.log.debug {"RemoveCommandProcessor.process: validation result: #{validation_result}"}
         if validation_result[:valid]
-          if initiative_started?
-            init = find_init
+          init = find_init
+          if init.present?
 
             init.remove_character!(command.position_number)
 

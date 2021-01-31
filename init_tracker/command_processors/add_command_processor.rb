@@ -11,8 +11,8 @@ module InitTracker
         InitTrackerLogger.log.debug { "AddCommandProcessor.process: validation result: #{validation_result}" }
 
         if validation_result[:valid]
-          if initiative_started?
-            init = find_init
+          init = find_init
+          if init.present?
 
             init.add_character!(command.character_name, command.dice, command.event.user)
 

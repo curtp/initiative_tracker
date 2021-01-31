@@ -16,6 +16,7 @@ InitTrackerLogger.log_destination = InitTracker.config[:log_file]
 
 # Connect to the database and run any pending migrations
 ActiveRecord::Base.establish_connection(adapter: 'sqlite3', database: InitTracker.config[:database_file])
+ActiveRecord::Base.logger = InitTrackerLogger.log
 InitTracker::Database::Migration.migrate(:up)
 
 # Establish the bot and connect

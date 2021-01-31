@@ -10,9 +10,8 @@ module InitTracker
         validation_result = validate_command
         InitTrackerLogger.log.debug {"DisplayCommandProcessor.process: validation result: #{validation_result}"}
         if validation_result[:valid]
-          if initiative_started?
-            init = find_init
-
+          init = find_init
+          if init.present?
             print_init(init)
           else
             result[:success] = false
