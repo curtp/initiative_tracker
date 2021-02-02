@@ -8,6 +8,8 @@ module InitTracker
 
       serialize :characters, Array
 
+      after_initialize :add_missing_attributes
+
       def reroll!
         characters.each do |char|
           set_character_init_order(char)
@@ -17,9 +19,16 @@ module InitTracker
         save
       end
 
+      def reset!
+        next!(1)
+        reset_went
+        save
+      end
+
       def next!(position_number = nil)
         # Nothing to do if there are no characters
         return if characters.size == 0
+
         # Ignore the position number if it is out of range
         if position_number.present? && (position_number < 1 || position_number > characters.size)
           position_number = nil
@@ -29,8 +38,15 @@ module InitTracker
         index_of_current_up_character = characters.find_index {|char| char[:up]}
         if index_of_current_up_character.present?
           characters[index_of_current_up_character][:up] = false
+          characters[index_of_current_up_character][:went] = true
         else
           index_of_current_up_character = characters.size - 1
+        end
+
+        if all_went?
+          InitTrackerLogger.log.debug {"all_went: resetting - #{characters}"}
+          reset_went
+          InitTrackerLogger.log.debug {"after reset: - #{characters}"}
         end
 
         InitTrackerLogger.log.debug("currently up: #{index_of_current_up_character}")
@@ -62,6 +78,7 @@ module InitTracker
         character[:added_by_user] = added_by_user.id
         character[:key] = SecureRandom.alphanumeric
         character[:up] = false
+        character[:went] = false
         set_character_init_order(character)
 
         InitTrackerLogger.log.debug("adding character: #{character.inspect}")
@@ -84,6 +101,20 @@ module InitTracker
 
       private
 
+      def all_went?
+        InitTrackerLogger.log.debug {"characters: #{characters}"}
+        yet_to_go = characters.detect {|character| character[:went] == false}
+        InitTrackerLogger.log.debug {"yet to go: #{yet_to_go}"}
+        return !yet_to_go.present?
+      end
+
+      def reset_went
+        InitTrackerLogger.log.debug("reset went")
+        characters.each do |character|
+          character[:went] = false
+        end
+      end
+
       def sort_characters
         characters.sort_by! {|character| character[:number]}.reverse!
       end
@@ -101,6 +132,14 @@ module InitTracker
 
       def roll(amount = 0, sides = 0)
         amount.to_i.times.sum { |t| SecureRandom.random_number(1..sides.to_i) }
+      end
+
+      def add_missing_attributes
+        InitTrackerLogger.log.debug("adding missing attributes")
+        return if characters.empty?
+        return if characters.first.has_key?(:went)
+        InitTrackerLogger.log.debug("calling reset_went")
+        reset_went
       end
 
     end

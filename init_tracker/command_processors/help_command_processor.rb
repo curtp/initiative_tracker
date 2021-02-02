@@ -39,6 +39,9 @@ module InitTracker
         event << "**-- Re-roll Initiative --**"
         event << "!init reroll - Re-rolls initiative for the current characters"
         event << " "
+        event << "**-- Reset Initiative --**"
+        event << "!init reset - Clears the done indicators and sets the first character as up"
+        event << " "
         event << "!init help - Display this help message <https://github.com/curtp/initiative_tracker>"
       end
 

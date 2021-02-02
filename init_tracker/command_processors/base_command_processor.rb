@@ -21,6 +21,9 @@ module InitTracker
         command.event << "=" * length
         init.characters.each_with_index do |character, ndx|
           msg = "#{ndx+1} - #{character[:name]} (#{character[:dice]} : #{character[:number]})"
+          if character[:went]
+            msg = msg << " (done)"
+          end
           if character[:up]
             msg = msg << " <= You're Up!"
           end

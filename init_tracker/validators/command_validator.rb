@@ -20,6 +20,8 @@ module InitTracker
           validator = NextValidator.new(command)
         when "reroll".freeze
           validator = RerollValidator.new(command)
+        when "reset".freeze
+          validator = ResetValidator.new(command)
         when "add".freeze
           validator = AddValidator.new(command)
         when "display".freeze
@@ -124,6 +126,18 @@ module InitTracker
 
         if command.instructions.size != 1
           return {valid: false, error_message: "To display initiative: display"}
+        end
+
+        return {valid: true, error_message: ""}
+      end
+    end
+
+    class ResetValidator < BaseValidator
+
+      def validate
+
+        if command.instructions.size != 1
+          return {valid: false, error_message: "To reset initiative: reset"}
         end
 
         return {valid: true, error_message: ""}

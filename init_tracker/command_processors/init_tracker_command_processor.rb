@@ -7,6 +7,7 @@ require_relative "./help_command_processor"
 require_relative "./next_command_processor"
 require_relative "./reroll_command_processor"
 require_relative "./display_command_processor"
+require_relative "./reset_command_processor"
 
 module InitTracker
   module CommandProcessors
@@ -35,6 +36,8 @@ module InitTracker
               processor = RerollCommandProcessor.new(command)
             when "display".freeze
               processor = DisplayCommandProcessor.new(command)
+            when "reset".freeze
+              processor = ResetCommandProcessor.new(command)
             else
               processor = HelpCommandProcessor.new(command)
             end

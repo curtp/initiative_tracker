@@ -45,6 +45,12 @@ The overall process is simple:
 ```
 !init reroll - Re-rolls initiative for the current characters
 ```
+
+**Reset Initiative**
+```
+!init reset - Clears the done indicators and sets the first character as up
+```
+
 **Help**
 ```
 !init help - Display a help message

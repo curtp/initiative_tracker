@@ -6,6 +6,7 @@ require_relative "./next_command"
 require_relative "./help_command"
 require_relative "./reroll_command"
 require_relative "./display_command"
+require_relative "./reset_command"
 
 module InitTracker
   module Models
@@ -29,6 +30,8 @@ module InitTracker
           return ReorderCommand.new(event)
         when "display".freeze
           return DisplayCommand.new(event)
+        when "reset".freeze
+          return ResetCommand.new(event)
         else
           return HelpCommand.new(event)
         end
