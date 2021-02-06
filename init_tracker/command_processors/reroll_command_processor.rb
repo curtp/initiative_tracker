@@ -13,6 +13,7 @@ module InitTracker
           if init.present?
             if init.present?
               init.reroll!
+              init.reset!
               print_init(init)
             end
           else
