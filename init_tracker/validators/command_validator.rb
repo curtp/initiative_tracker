@@ -9,6 +9,8 @@ module InitTracker
         if command.is_a?(InitTracker::Models::ReactionCommand)
           InitTrackerLogger.log.debug {"CommandValidator: creating reaction validator for command: #{command.inspect}"}
           validator = ReactionValidator.new(command)
+        elsif command.help_command?
+          return {valid: true, error_message: nil}
         else
           InitTrackerLogger.log.debug {"CommandValidator: instruction size: #{command.instructions.size}"}
           if command.instructions.size < 1
@@ -56,6 +58,7 @@ module InitTracker
       def validate
         return {valid: true, error_message: ""}
       end
+
     end
 
     class AddValidator < BaseValidator
@@ -164,12 +167,12 @@ module InitTracker
         return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.embeds.first.title.eql?("Initiative Order")
 
         # Make sure it is for one of the used emojis
-        InitTrackerLogger.log.debug {"ReactionValidator: emoji: #{command.event.emoji.to_s}"}
-        return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !InitTracker::Models::ReactionCommand::EMOJIS.include?(command.event.emoji.to_s)
+        return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !command.control_emoji?
 
         # All good, return valid
         return {valid: true, error_message: ""}
       end
+
     end
 
   end

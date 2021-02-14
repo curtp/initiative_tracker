@@ -22,6 +22,10 @@ module InitTracker
       def help_command?
         return false
       end
+
+      def display_error?
+        return true
+      end
     end
   end
 end

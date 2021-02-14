@@ -6,12 +6,45 @@ module InitTracker
     class BaseCommandProcessor
 
       attr_accessor :command
+      attr_accessor :init
 
       def initialize(command)
         self.command = command
       end
 
+      def process(init_required:)
+        result = build_success_result
+        validation_result = validate_command
+
+        if !validation_result[:valid]
+          result[:success] = false
+          result[:error_message] = validation_result[:error_message]
+          InitTrackerLogger.log.debug {"BaseCommandProcessor.process: validation failed returning result: #{result}"}
+          return result
+        end
+
+        if init_required
+          self.init = find_init
+          if !init.present?
+            result[:success] = false
+            result[:error_message] = initiative_not_started_message
+            InitTrackerLogger.log.debug {"BaseCommandProcessor.process: init not started returning result: #{result}"}
+            return result
+          end
+        end
+
+        # Execute the command specific logic in the child class
+        child_process(init_required: init_required)
+      end
+
       protected
+
+      def child_process(init_required:)
+      end
+
+      def build_success_result
+        result = {success: true, error_message: ""}
+      end
 
       def print_init(init)
         has_embed_permission? ? print_embed_init(init) : print_code_init(init)
@@ -31,6 +64,10 @@ module InitTracker
 
       def initiative_not_started_message
         "Initiative not started. To start tracking initiative, run the start command.".freeze
+      end
+
+      def end_of_initiative_message
+        "End of initiative.".freeze
       end
 
       def validate_command
@@ -82,10 +119,11 @@ module InitTracker
           end
           embed.description = msg
         end
-        InitTrackerLogger.log.debug("message: #{message.inspect}")
-        message.create_reaction('▶️')
-        message.create_reaction('🔁')
-        message.create_reaction('🔀')
+
+        # Add the reaction emojis
+        InitTracker::Models::ReactionCommand::EMOJIS.each do |emoji|
+          message.create_reaction(emoji)
+        end
       end
 
       def print_code_init(init)

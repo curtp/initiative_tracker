@@ -27,13 +27,7 @@ bot.command(:init, aliases: [:i], description: "Master command for communicating
 end
 
 bot.reaction_add do |event|
-#  InitTrackerLogger.log.debug("Reaction added: #{event.emoji}")
-#  InitTrackerLogger.log.debug("Message: #{event.message.inspect}")
-#  InitTrackerLogger.log.debug("Embed: #{event.message.embeds.inspect}")
-
-#  if event.emoji.eql?('▶️') && !event.message.embeds.empty? && event.message.embeds.first.title.eql?("Initiative Order")
   InitTracker::CommandProcessors::InitTrackerCommandProcessor.execute(InitTracker::Models::CommandFactory.create_command_for_event(event))
-#  end
 end
 
 # This runs when the bot is added to a server.

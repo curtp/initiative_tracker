@@ -5,26 +5,13 @@ module InitTracker
   module CommandProcessors
     class AddCommandProcessor < BaseCommandProcessor
 
-      def process
-        result = {success: true, error_message: ""}
-        validation_result = validate_command
-        InitTrackerLogger.log.debug { "AddCommandProcessor.process: validation result: #{validation_result}" }
+      def child_process(init_required:)
+        result = build_success_result
 
-        if validation_result[:valid]
-          init = find_init
-          if init.present?
+        init.add_character!(command.character_name, command.dice, command.event.user)
 
-            init.add_character!(command.character_name, command.dice, command.event.user)
+        print_init(init)
 
-            print_init(init)
-          else
-            result[:success] = false
-            result[:error_message] = initiative_not_started_message
-          end
-        else
-          result[:success] = false
-          result[:error_message] = validation_result[:error_message]
-        end
         InitTrackerLogger.log.debug {"AddCommandProcessor.process: returning result: #{result}"}
         return result
       end

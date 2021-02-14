@@ -19,8 +19,11 @@ module InitTracker
         begin
           InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} issued command: #{command.event.message.content}")
 
+          init_required = true
+
           if command.help_command?
             processor = HelpCommandProcessor.new(command)
+            init_required = false
           elsif command.is_a?(InitTracker::Models::ReactionCommand)
             processor = ReactionCommandProcessor.new(command)
           else
@@ -31,6 +34,7 @@ module InitTracker
               processor = RemoveCommandProcessor.new(command)
             when "start".freeze
               processor = StartCommandProcessor.new(command)
+              init_required = false
             when "stop".freeze
               processor = StopCommandProcessor.new(command)
             when "next".freeze
@@ -46,12 +50,10 @@ module InitTracker
             end
           end
 
-          result = processor.process
+          result = processor.process(init_required: init_required)
 
-          if !result[:success]
-            command.event << "Sorry! #{result[:error_message]}"
-            command.event << ""
-            command.event << "See !init help for usage information"
+          if !result[:success] && command.display_error?
+            command.event.send_message("Sorry! #{result[:error_message]}\n\nSee !init help for usage information")
           end
         rescue Exception => e
           InitTrackerLogger.log.error("InitTrackerCommandProcessor: Issue processing request: #{e}")

@@ -5,25 +5,10 @@ module InitTracker
   module CommandProcessors
     class ReactionCommandProcessor < BaseCommandProcessor
 
-      def process
-        result = {success: true, error_message: ""}
-        validation_result = validate_command
+      def child_process(init_required:)
+        result = build_success_result
 
-        if !validation_result[:valid]
-          result[:success] = false
-          result[:error_message] = validation_result[:error_message]
-          InitTrackerLogger.log.debug {"ReactionCommandProcessor.process: returning result: #{result}"}
-          return result
-        end
-
-        init = find_init
-        if !init.present?
-          result[:success] = false
-          result[:error_message] = initiative_not_started_message
-          InitTrackerLogger.log.debug {"ReactionCommandProcessor.process: returning result: #{result}"}
-          return result
-        end
-        
+        print_init = true
         case command.event.emoji.to_s
         when InitTracker::Models::ReactionCommand::NEXT_EMOJI
           init.next!
@@ -32,11 +17,15 @@ module InitTracker
           init.reset!
         when InitTracker::Models::ReactionCommand::RESET_EMOJI
           init.reset!
+        when InitTracker::Models::ReactionCommand::STOP_EMOJI
+          init.destroy
+          command.event.send_message(end_of_initiative_message)
+          print_init = false
         end
 
         remove_command
-        
-        print_init(init)
+
+        print_init(init) if print_init
 
         InitTrackerLogger.log.debug {"ReactionCommandProcessor.process: returning result: #{result}"}
         return result

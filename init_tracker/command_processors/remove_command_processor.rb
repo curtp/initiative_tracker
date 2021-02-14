@@ -5,25 +5,10 @@ module InitTracker
   module CommandProcessors
     class RemoveCommandProcessor < BaseCommandProcessor
 
-      def process
-        result = {success: true, error_message: ""}
-        validation_result = validate_command
-        InitTrackerLogger.log.debug {"RemoveCommandProcessor.process: validation result: #{validation_result}"}
-        if validation_result[:valid]
-          init = find_init
-          if init.present?
-
-            init.remove_character!(command.position_number)
-
-            print_init(init)
-          else
-            result[:success] = false
-            result[:error_message] = initiative_not_started_message
-          end
-        else
-          result[:success] = false
-          result[:error_message] = validation_result[:error_message]
-        end
+      def child_process(init_required:)
+        result = build_success_result
+        init.remove_character!(command.position_number)
+        print_init(init)
         InitTrackerLogger.log.debug {"RemoveCommandProcessor.process: returning result: #{result}"}
         return result
       end
