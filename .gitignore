@@ -11,3 +11,6 @@ logs
 /.bundle/
 /vendor/bundle
 /lib/bundler/man/
+
+# Hide OS specific stuff
+.DS_Store
