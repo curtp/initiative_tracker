@@ -7,7 +7,7 @@ This is a work in progress and not ready for general use. Message me if you'd li
 The reactions under the display act as shortcuts for simple interaction. See descriptions of actions below. In the screenshot above, Gandalf is finished, Frodo is up, and Samwise hasn't gone yet.
 
 ### Required Permissions
-**Send Messages** - Allows the bot to send messages to the channel.
+**Send Messages** - Allows the bot to send messages to the channel.  
 **Embed Links** - Allows the bot to display initiative in the channel.
 
 ## How It Works
