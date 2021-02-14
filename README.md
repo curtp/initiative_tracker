@@ -8,6 +8,7 @@ The reactions under the display act as shortcuts for simple interaction. See des
 
 ### Required Permissions
 **Send Messages** - Allows the bot to send messages to the channel.
+**Embed Links** - Allows the bot to display initiative in the channel.
 
 ## How It Works
 Track initiative by starting it, then adding characters, then progressing through the list until initiative is no longer needed. Initiative is run at the channel level, so it is possible to have multiple initatives active across multiple channels.
