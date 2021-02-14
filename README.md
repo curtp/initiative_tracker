@@ -3,6 +3,9 @@ Discord bot for tracking initiative for RPG games
 
 This is a work in progress and not ready for general use. Message me if you'd like to try it out. There is a very limited number of servers allowed at this time.
 
+<img src="https://github.com/curtp/initiative_tracker/blob/main/docs/init_tracker_screenshot.png?raw=true" width='50%'>
+The reactions under the display act as shortcuts for simple interaction. See descriptions of actions below.
+
 ### Required Permissions
 **Send Messages** - Allows the bot to send messages to the channel.
 
@@ -36,10 +39,13 @@ The overall process is simple:
 !init next [position number] - Set the next character to be up: !init next 3
 ```
 
+You can also click the right arrow (far left) under the display to move to the next character (see screenshot above)
+
 **Stop Initative**
 ```
 !init stop - Stops initiative for the channel
 ```
+You can also click the stop button (far right) under the display to stop initiative (see screenshot above)
 
 **Display Initiative**
 ```
@@ -50,11 +56,13 @@ The overall process is simple:
 ```
 !init reroll - Re-rolls initiative for the current characters
 ```
+You can also click the crossing arrows (2nd from right) under the display to re-roll initiative (see screenshot above)
 
 **Reset Initiative**
 ```
 !init reset - Clears the done indicators and sets the first character as up
 ```
+You can also click the circle arrows (2nd from left) under the display to reset initiative (see screenshot above)
 
 **Help**
 ```
