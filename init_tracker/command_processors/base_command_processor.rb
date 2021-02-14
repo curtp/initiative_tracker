@@ -68,7 +68,7 @@ module InitTracker
         InitTrackerLogger.log.debug("embed init")
         command.event.channel.send_embed do |embed|
           embed.title = "Initiative Order"
-          embed.colour = 513848
+          embed.colour = 3447003  # Green = 513848
           msg = ""
           init.characters.each_with_index do |character, ndx|
             bold_char = character[:up] ? "**" : nil
