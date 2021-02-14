@@ -8,26 +8,28 @@ module InitTracker
       def process
         result = {success: true, error_message: ""}
         validation_result = validate_command
-        InitTrackerLogger.log.debug { "NextCommandProcessor.process: validation result: #{validation_result}" }
 
-        if validation_result[:valid]
-          init = find_init
-          if init.present?
-            init.next!(command.position_number)
-            print_init(init)
-          else
-            result[:success] = false
-            result[:error_message] = initiative_not_started_message
-          end
-        else
+        if !validation_result[:valid]
           result[:success] = false
           result[:error_message] = validation_result[:error_message]
+          InitTrackerLogger.log.debug {"NextCommandProcessor.process: returning result: #{result}"}
+          return result
         end
+
+        init = find_init
+        if !init.present?
+          result[:success] = false
+          result[:error_message] = initiative_not_started_message
+          InitTrackerLogger.log.debug {"NextCommandProcessor.process: returning result: #{result}"}
+          return result
+        end
+
+        init.next!(command.position_number)
+        print_init(init)
 
         InitTrackerLogger.log.debug {"NextCommandProcessor.process: returning result: #{result}"}
         return result
       end
-
     end
   end
 end

@@ -66,7 +66,7 @@ module InitTracker
 
       def print_embed_init(init)
         InitTrackerLogger.log.debug("embed init")
-        command.event.channel.send_embed do |embed|
+        message = command.event.channel.send_embed do |embed|
           embed.title = "Initiative Order"
           embed.colour = 3447003  # Green = 513848
           msg = ""
@@ -82,6 +82,10 @@ module InitTracker
           end
           embed.description = msg
         end
+        InitTrackerLogger.log.debug("message: #{message.inspect}")
+        message.create_reaction('▶️')
+        message.create_reaction('🔁')
+        message.create_reaction('🔀')
       end
 
       def print_code_init(init)

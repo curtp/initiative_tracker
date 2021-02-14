@@ -7,12 +7,22 @@ require_relative "./help_command"
 require_relative "./reroll_command"
 require_relative "./display_command"
 require_relative "./reset_command"
+require_relative "./reaction_command"
 
 module InitTracker
   module Models
     class CommandFactory
 
       def self.create_command_for_event(event)
+
+        InitTrackerLogger.log.debug {"CommandFactory: event.emoji: #{event.try(:emoji)}"}
+
+        # Reaction commands are different than bot commands.
+        if event.try(:emoji).try(:present?)
+          InitTrackerLogger.log.debug {"CommandFactory: Creating a reaction command object for the event: #{event.emoji}"}
+          
+          return ReactionCommand.new(event)
+        end
 
         InitTrackerLogger.log.debug {"CommandFactory: Creating command object for command: #{event.message.content.downcase.strip.split(" ")[1]}"}
         case event.message.content.downcase.strip.split(" ")[1]

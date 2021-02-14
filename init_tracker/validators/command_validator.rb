@@ -1,34 +1,43 @@
+require_relative "../models/reaction_command"
+
 module InitTracker
   module Validators
     class CommandValidator
 
       def self.validate(command)
-        InitTrackerLogger.log.debug {"CommandValidator: instruction size: #{command.instructions.size}"}
-        if command.instructions.size < 1
-          return {valid: false, error_message: "Unknown command"}
+
+        if command.is_a?(InitTracker::Models::ReactionCommand)
+          InitTrackerLogger.log.debug {"CommandValidator: creating reaction validator for command: #{command.inspect}"}
+          validator = ReactionValidator.new(command)
+        else
+          InitTrackerLogger.log.debug {"CommandValidator: instruction size: #{command.instructions.size}"}
+          if command.instructions.size < 1
+            return {valid: false, error_message: "Unknown command"}
+          end
+
+          InitTrackerLogger.log.debug {"CommandValidator: creating validator for command: #{command.base_instruction.downcase.strip}"}
+          case command.base_instruction.downcase.strip
+          when "start".freeze
+            validator = StartValidator.new(command)
+          when "remove".freeze
+            validator = RemoveValidator.new(command)
+          when "stop".freeze
+            validator = StopValidator.new(command)
+          when "next".freeze
+            validator = NextValidator.new(command)
+          when "reroll".freeze
+            validator = RerollValidator.new(command)
+          when "reset".freeze
+            validator = ResetValidator.new(command)
+          when "add".freeze
+            validator = AddValidator.new(command)
+          when "display".freeze
+            validator = DisplayValidator.new(command)
+          else
+            return {valid: false, error_message: "Unknown command"}
+          end
         end
 
-        InitTrackerLogger.log.debug {"CommandValidator: creating validator for command: #{command.base_instruction.downcase.strip}"}
-        case command.base_instruction.downcase.strip
-        when "start".freeze
-          validator = StartValidator.new(command)
-        when "remove".freeze
-          validator = RemoveValidator.new(command)
-        when "stop".freeze
-          validator = StopValidator.new(command)
-        when "next".freeze
-          validator = NextValidator.new(command)
-        when "reroll".freeze
-          validator = RerollValidator.new(command)
-        when "reset".freeze
-          validator = ResetValidator.new(command)
-        when "add".freeze
-          validator = AddValidator.new(command)
-        when "display".freeze
-          validator = DisplayValidator.new(command)
-        else
-          return {valid: false, error_message: "Unknown command"}
-        end
         return validator.validate
       end
 
@@ -140,6 +149,25 @@ module InitTracker
           return {valid: false, error_message: "To reset initiative: reset"}
         end
 
+        return {valid: true, error_message: ""}
+      end
+    end
+
+    class ReactionValidator < BaseValidator
+
+      def validate
+
+        # Make sure it is for an embeds
+        return {valid: false, error_message: "not for an embeds"} if command.event.message.embeds.empty?
+
+        # Make sure it is for an inittracker embed
+        return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.embeds.first.title.eql?("Initiative Order")
+
+        # Make sure it is for one of the used emojis
+        InitTrackerLogger.log.debug {"ReactionValidator: emoji: #{command.event.emoji.to_s}"}
+        return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !InitTracker::Models::ReactionCommand::EMOJIS.include?(command.event.emoji.to_s)
+
+        # All good, return valid
         return {valid: true, error_message: ""}
       end
     end

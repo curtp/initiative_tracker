@@ -8,6 +8,7 @@ require_relative "./next_command_processor"
 require_relative "./reroll_command_processor"
 require_relative "./display_command_processor"
 require_relative "./reset_command_processor"
+require_relative "./reaction_command_processor"
 
 module InitTracker
   module CommandProcessors
@@ -20,6 +21,8 @@ module InitTracker
 
           if command.help_command?
             processor = HelpCommandProcessor.new(command)
+          elsif command.is_a?(InitTracker::Models::ReactionCommand)
+            processor = ReactionCommandProcessor.new(command)
           else
             case command.base_instruction
             when "add".freeze
