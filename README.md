@@ -4,7 +4,7 @@ Discord bot for tracking initiative for RPG games
 This is a work in progress and not ready for general use. Message me if you'd like to try it out. There is a very limited number of servers allowed at this time.
 
 <img src="https://github.com/curtp/initiative_tracker/blob/main/docs/init_tracker_screenshot.png?raw=true" width='50%'>
-The reactions under the display act as shortcuts for simple interaction. See descriptions of actions below.
+The reactions under the display act as shortcuts for simple interaction. See descriptions of actions below. In the screenshot above, Gandalf is finished, Frodo is up, and Samwise hasn't gone yet.
 
 ### Required Permissions
 **Send Messages** - Allows the bot to send messages to the channel.
