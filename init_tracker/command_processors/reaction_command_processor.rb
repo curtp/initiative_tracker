@@ -25,7 +25,7 @@ module InitTracker
           remove_command = false
         end
 
-        remove_command
+        # remove_command
 
         print_init(init) if print_init
 
