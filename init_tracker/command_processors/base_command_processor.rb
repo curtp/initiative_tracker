@@ -64,8 +64,6 @@ module InitTracker
         bot_profile = command.event.bot.profile.on(command.event.server)
       end
 
-      # TODO: DRY up these print methods. Should be a way to share the loop and the 
-      # general format
       def print_embed_init(init)
         InitTrackerLogger.log.debug("embed init")
         command.event.channel.send_embed do |embed|
@@ -73,14 +71,15 @@ module InitTracker
           embed.colour = 513848
           msg = ""
           init.characters.each_with_index do |character, ndx|
-            msg = msg << "#{ndx+1} - #{character[:name]} (#{character[:dice]} : #{character[:number]})"
-            if character[:went]
-              msg = msg << " (done)"
-            end
+            bold_char = character[:up] ? "**" : nil
+            box = ":green_square:"
             if character[:up]
-              msg = msg << " **<= You're Up!**"
+              box = ":eight_spoked_asterisk:"
+            elsif character[:went]
+              box = ":white_check_mark:"
             end
-            msg = msg << "\n"
+            done_check = character[:went] ? ":white_check_mark:" : ":green_square:"
+            msg = msg << "#{box}︲#{bold_char}#{ndx+1} - #{character[:name]} (#{character[:dice]} : #{character[:number]})#{bold_char}\n"
           end
           embed.description = msg
         end
