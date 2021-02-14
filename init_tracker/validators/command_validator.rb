@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative "../models/reaction_command"
 
 module InitTracker
@@ -19,21 +20,21 @@ module InitTracker
 
           InitTrackerLogger.log.debug {"CommandValidator: creating validator for command: #{command.base_instruction.downcase.strip}"}
           case command.base_instruction.downcase.strip
-          when "start".freeze
+          when "start"
             validator = StartValidator.new(command)
-          when "remove".freeze
+          when "remove"
             validator = RemoveValidator.new(command)
-          when "stop".freeze
+          when "stop"
             validator = StopValidator.new(command)
-          when "next".freeze
+          when "next"
             validator = NextValidator.new(command)
-          when "reroll".freeze
+          when "reroll"
             validator = RerollValidator.new(command)
-          when "reset".freeze
+          when "reset"
             validator = ResetValidator.new(command)
-          when "add".freeze
+          when "add"
             validator = AddValidator.new(command)
-          when "display".freeze
+          when "display"
             validator = DisplayValidator.new(command)
           else
             return {valid: false, error_message: "Unknown command"}
@@ -164,7 +165,7 @@ module InitTracker
         return {valid: false, error_message: "not for an embeds"} if command.event.message.embeds.empty?
 
         # Make sure it is for an inittracker embed
-        return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.embeds.first.title.eql?("Initiative Order")
+        return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.embeds.first.title.eql?(InitTracker::CommandProcessors::BaseCommandProcessor::INITIATIVE_DISPLAY_HEADER)
 
         # Make sure it is for one of the used emojis
         return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !command.control_emoji?

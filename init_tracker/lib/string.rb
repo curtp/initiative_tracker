@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # String tokenizer for parsing the commands
 class String
   def tokenize

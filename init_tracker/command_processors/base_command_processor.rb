@@ -5,6 +5,8 @@ module InitTracker
   module CommandProcessors
     class BaseCommandProcessor
 
+      INITIATIVE_DISPLAY_HEADER = "Initiative Order"
+
       attr_accessor :command
       attr_accessor :init
 
@@ -104,14 +106,14 @@ module InitTracker
       def print_embed_init(init)
         InitTrackerLogger.log.debug("embed init")
         message = command.event.channel.send_embed do |embed|
-          embed.title = "Initiative Order"
+          embed.title = INITIATIVE_DISPLAY_HEADER
           embed.colour = 3447003  # Green = 513848
           msg = ""
           init.characters.each_with_index do |character, ndx|
             bold_char = character[:up] ? "**" : nil
-            box = ":green_square:"
+            box = ":green_square:".freeze
             if character[:up]
-              box = ":eight_spoked_asterisk:"
+              box = ":eight_spoked_asterisk:".freeze
             elsif character[:went]
               box = ":white_check_mark:"
             end
@@ -127,7 +129,7 @@ module InitTracker
       end
 
       def print_code_init(init)
-        header = "Initiative Order"
+        header = INITIATIVE_DISPLAY_HEADER
         length = header.size
         command.event << "```"
         command.event << header

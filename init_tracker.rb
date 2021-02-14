@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'discordrb'
 require 'dotenv/load'
 require "active_record"

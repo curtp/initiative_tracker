@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative "./add_command"
 require_relative "./remove_command"
 require_relative "./start_command"
@@ -26,21 +27,21 @@ module InitTracker
 
         InitTrackerLogger.log.debug {"CommandFactory: Creating command object for command: #{event.message.content.downcase.strip.split(" ")[1]}"}
         case event.message.content.downcase.strip.split(" ")[1]
-        when "add".freeze
+        when "add"
           return AddCommand.new(event)
-        when "remove".freeze
+        when "remove"
           return RemoveCommand.new(event)
-        when "next".freeze, "list".freeze
+        when "next"
           return NextCommand.new(event)
-        when "start".freeze
+        when "start"
           return StartCommand.new(event)
-        when "stop".freeze
+        when "stop"
           return StopCommand.new(event)
-        when "reroll".freeze
+        when "reroll"
           return ReorderCommand.new(event)
-        when "display".freeze
+        when "display"
           return DisplayCommand.new(event)
-        when "reset".freeze
+        when "reset"
           return ResetCommand.new(event)
         else
           return HelpCommand.new(event)

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative "../validators/command_validator"
 require_relative "./add_command_processor"
 require_relative "./remove_command_processor"

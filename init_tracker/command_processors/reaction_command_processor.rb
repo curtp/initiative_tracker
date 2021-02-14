@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require_relative "./base_command_processor"
 require_relative "../models/init"
 
@@ -9,7 +10,6 @@ module InitTracker
         result = build_success_result
 
         print_init = true
-        remove_command = true
         case command.event.emoji.to_s
         when InitTracker::Models::ReactionCommand::NEXT_EMOJI
           init.next!
@@ -22,10 +22,7 @@ module InitTracker
           init.destroy
           command.event.send_message(end_of_initiative_message)
           print_init = false
-          remove_command = false
         end
-
-        # remove_command
 
         print_init(init) if print_init
 
