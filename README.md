@@ -25,6 +25,11 @@ The overall process is simple:
 !init add '[character name]' [dice] - Adds the character to initiative: !init add 'By Tor' 2d6+1
 ```
 
+**Remove Characters**
+```
+!init remove [position number] - Removes the character at the position given
+```
+
 **Who's Up?**
 ```
 !init next - Moves to the next character in the list
