@@ -5,7 +5,7 @@ module InitTracker
   module CommandProcessors
     class AddCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
 
         init.add_character!(command.character_name, command.dice, command.event.user)

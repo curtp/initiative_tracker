@@ -5,6 +5,10 @@ module InitTracker
       def help_command?
         return true
       end
+
+      def init_required?
+        return false
+      end
     end
   end
 end

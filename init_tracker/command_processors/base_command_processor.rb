@@ -12,7 +12,7 @@ module InitTracker
         self.command = command
       end
 
-      def process(init_required:)
+      def process
         result = build_success_result
         validation_result = validate_command
 
@@ -23,7 +23,7 @@ module InitTracker
           return result
         end
 
-        if init_required
+        if command.init_required?
           self.init = find_init
           if !init.present?
             result[:success] = false
@@ -34,12 +34,12 @@ module InitTracker
         end
 
         # Execute the command specific logic in the child class
-        child_process(init_required: init_required)
+        child_process
       end
 
       protected
 
-      def child_process(init_required:)
+      def child_process
       end
 
       def build_success_result

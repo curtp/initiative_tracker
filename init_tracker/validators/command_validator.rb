@@ -79,7 +79,7 @@ module InitTracker
 
         if command.instructions.size != 2
           return {valid: false,
-            error_message: "To remove a character from initative: remove 'character name'"}
+            error_message: "To remove a character from initative: remove #"}
         end
         return {valid: true, error_message: ""}
       end

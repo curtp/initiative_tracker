@@ -5,7 +5,7 @@ module InitTracker
   module CommandProcessors
     class NextCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
         
         init.next!(command.position_number)

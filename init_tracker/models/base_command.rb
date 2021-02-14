@@ -26,6 +26,11 @@ module InitTracker
       def display_error?
         return true
       end
+
+      def init_required?
+        return true
+      end
+      
     end
   end
 end

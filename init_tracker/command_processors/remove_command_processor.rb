@@ -5,7 +5,7 @@ module InitTracker
   module CommandProcessors
     class RemoveCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
         init.remove_character!(command.position_number)
         print_init(init)

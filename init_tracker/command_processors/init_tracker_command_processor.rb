@@ -50,7 +50,7 @@ module InitTracker
             end
           end
 
-          result = processor.process(init_required: init_required)
+          result = processor.process
 
           if !result[:success] && command.display_error?
             command.event.send_message("Sorry! #{result[:error_message]}\n\nSee !init help for usage information")

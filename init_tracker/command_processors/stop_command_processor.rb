@@ -5,7 +5,7 @@ module InitTracker
   module CommandProcessors
     class StopCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
         init.destroy
         command.event.send_message(end_of_initiative_message)

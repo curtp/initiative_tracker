@@ -4,7 +4,7 @@ module InitTracker
   module CommandProcessors
     class RerollCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
         init.reroll!
         init.reset!

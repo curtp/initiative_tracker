@@ -5,7 +5,7 @@ module InitTracker
   module CommandProcessors
     class StartCommandProcessor < BaseCommandProcessor
 
-      def child_process(init_required:)
+      def child_process
         result = build_success_result
         if initiative_started?
           result[:success] = false
