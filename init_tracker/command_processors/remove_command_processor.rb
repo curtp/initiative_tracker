@@ -9,8 +9,6 @@ module InitTracker
         InitTrackerLogger.log.debug {"RemoveCommandProcessor.process: result: #{result}"}
       end
 
-      private
-
     end
   end
 end
