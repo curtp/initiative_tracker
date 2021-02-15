@@ -19,15 +19,12 @@ module InitTracker
 
         begin
 
-          init_required = true
-
-          if command.help_command?
-            processor = HelpCommandProcessor.new(command)
-            init_required = false
-          elsif command.is_a?(InitTracker::Models::ReactionCommand)
+          if command.is_a?(InitTracker::Models::ReactionCommand)
             InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} reacted: #{command.emoji}")
             processor = ReactionCommandProcessor.new(command)
           else
+            InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} issued command: #{command.event.message.content}")            
+            
             case command.base_instruction
             when "add".freeze
               processor = AddCommandProcessor.new(command)
