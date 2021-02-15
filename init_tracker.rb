@@ -41,5 +41,11 @@ bot.server_delete do |event|
   InitTracker::Models::Server.bot_left_server(event)
 end
 
+# When the bot is ready, set the status so people know how to interact with it
+bot.ready do |event|
+  InitTrackerLogger.log.debug("Ready event")
+  bot.update_status("online", "!init", nil, since = 0, afk = false, activity_type = 2)
+end
+
 # Startup the bot
 bot.run
