@@ -5,10 +5,8 @@ module InitTracker
   module CommandProcessors
     class HelpCommandProcessor < BaseCommandProcessor
 
-      def child_process
+      def child_process(result)
         HelpCommandProcessor.build_help_message(command.event)
-        result = {success: true, error_message: ""}
-        return result
       end
 
       def self.build_help_message(event)

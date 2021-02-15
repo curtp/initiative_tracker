@@ -6,14 +6,10 @@ module InitTracker
   module CommandProcessors
     class NextCommandProcessor < BaseCommandProcessor
 
-      def child_process
-        result = build_success_result
-        
+      def child_process(result)
         init.next!(command.position_number)
-        print_init(init)
 
-        InitTrackerLogger.log.debug {"NextCommandProcessor.process: returning result: #{result}"}
-        return result
+        InitTrackerLogger.log.debug {"NextCommandProcessor.process: result: #{result}"}
       end
     end
   end

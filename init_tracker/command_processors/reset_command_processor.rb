@@ -6,12 +6,9 @@ module InitTracker
   module CommandProcessors
     class ResetCommandProcessor < BaseCommandProcessor
 
-      def child_process
-        result = build_success_result
+      def child_process(result)
         init.reset!
-        print_init(init)
-        InitTrackerLogger.log.debug {"ResetCommandProcessor.process: returning result: #{result}"}
-        return result
+        InitTrackerLogger.log.debug {"ResetCommandProcessor.process: result: #{result}"}
       end
 
     end

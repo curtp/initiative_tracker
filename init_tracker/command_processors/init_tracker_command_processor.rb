@@ -18,7 +18,6 @@ module InitTracker
       def self.execute(command)
 
         begin
-          InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} issued command: #{command.event.message.content}")
 
           init_required = true
 
@@ -26,6 +25,7 @@ module InitTracker
             processor = HelpCommandProcessor.new(command)
             init_required = false
           elsif command.is_a?(InitTracker::Models::ReactionCommand)
+            InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} reacted: #{command.emoji}")
             processor = ReactionCommandProcessor.new(command)
           else
             case command.base_instruction

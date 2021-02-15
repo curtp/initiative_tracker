@@ -31,6 +31,10 @@ module InitTracker
         return true
       end
       
+      def display_init?
+        return true
+      end
+      
     end
   end
 end

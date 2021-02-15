@@ -5,13 +5,9 @@ module InitTracker
   module CommandProcessors
     class RerollCommandProcessor < BaseCommandProcessor
 
-      def child_process
-        result = build_success_result
+      def child_process(result)
         init.reroll!
-        init.reset!
-        print_init(init)
-        InitTrackerLogger.log.debug {"RerollCommandProcessor.process: returning result: #{result}"}
-        return result
+        InitTrackerLogger.log.debug {"RerollCommandProcessor.process: result: #{result}"}
       end
 
     end

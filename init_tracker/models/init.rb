@@ -16,7 +16,7 @@ module InitTracker
           set_character_init_order(char)
         end
         sort_characters
-        next!(1)
+        reset!
         save
       end
 

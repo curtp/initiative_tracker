@@ -6,11 +6,9 @@ module InitTracker
   module CommandProcessors
     class DisplayCommandProcessor < BaseCommandProcessor
 
-      def child_process
-        result = build_success_result
-        print_init(init)
-        InitTrackerLogger.log.debug {"DisplayCommandProcessor.process: returning result: #{result}"}
-        return result
+      def child_process(result)
+        # Do nothing because the base class will display the init if the command is configured to do so
+        InitTrackerLogger.log.debug {"DisplayCommandProcessor.process: result: #{result}"}
       end
     end
   end

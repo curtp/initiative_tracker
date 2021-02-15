@@ -6,15 +6,10 @@ module InitTracker
   module CommandProcessors
     class AddCommandProcessor < BaseCommandProcessor
 
-      def child_process
-        result = build_success_result
-
+      def child_process(result)
         init.add_character!(command.character_name, command.dice, command.event.user)
 
-        print_init(init)
-
-        InitTrackerLogger.log.debug {"AddCommandProcessor.process: returning result: #{result}"}
-        return result
+        InitTrackerLogger.log.debug {"AddCommandProcessor.process: result: #{result}"}
       end
 
     end

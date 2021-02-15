@@ -8,7 +8,7 @@ module InitTracker
       def self.validate(command)
 
         if command.is_a?(InitTracker::Models::ReactionCommand)
-          InitTrackerLogger.log.debug {"CommandValidator: creating reaction validator for command: #{command.inspect}"}
+          InitTrackerLogger.log.debug {"CommandValidator: creating reaction validator for command"}
           validator = ReactionValidator.new(command)
         elsif command.help_command?
           return {valid: true, error_message: nil}
