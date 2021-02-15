@@ -79,7 +79,6 @@ You can also click the circle arrows (2nd from left) under the display to reset 
 ```
 BOT_TOKEN="[Paste Discord Bot Token Here]"
 ```
-For Example:
-BOT_TOKEN="AbCdefG1928371"
+For Example:  BOT_TOKEN="AbCdefG1928371"
 
 6. Run docker-compose up
