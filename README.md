@@ -74,9 +74,12 @@ You can also click the circle arrows (2nd from left) under the display to reset 
 1. Clone the repository
 2. Make the data and logs directories
 3. Create a bot in Discord and copy the token
-4. Make the .env file
+4. Make the .env file (Windows users, make sure the file doesn't have a .txt extension)
 5. Add the following to the .env file:
 ```
 BOT_TOKEN="[Paste Discord Bot Token Here]"
+
+For Example:
+BOT_TOKEN="AbCdefG1928371"
 ```
 6. Run docker-compose up
