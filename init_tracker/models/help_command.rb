@@ -1,4 +1,3 @@
-require_relative "./base_command"
 module InitTracker
   module Models
     class HelpCommand < BaseCommand
@@ -13,7 +12,7 @@ module InitTracker
       def display_init?
         return false
       end
-      
+
     end
   end
 end

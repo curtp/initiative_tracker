@@ -3,13 +3,9 @@ require 'discordrb'
 require 'dotenv/load'
 require "active_record"
 require "yaml"
-require_relative './init_tracker/lib/init_tracker_logger'
-require_relative './init_tracker/lib/string'
-require_relative './init_tracker/command_processors/init_tracker_command_processor'
-require_relative "./init_tracker/models/command_factory"
-require_relative "./init_tracker/models/server"
-require_relative "./init_tracker/database/migration"
-require_relative "./init_tracker/lib/config"
+
+# Load non-Discordrb modules
+Dir["#{File.dirname(__FILE__)}/init_tracker/**/*.rb"].each { |f| load(f) }
 
 # Setup the logger
 InitTrackerLogger.log_level = Logger::DEBUG

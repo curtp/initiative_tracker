@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require_relative "../models/reaction_command"
 
 module InitTracker
   module Validators

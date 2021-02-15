@@ -1,14 +1,4 @@
 # frozen_string_literal: true
-require_relative "./add_command"
-require_relative "./remove_command"
-require_relative "./start_command"
-require_relative "./stop_command"
-require_relative "./next_command"
-require_relative "./help_command"
-require_relative "./reroll_command"
-require_relative "./display_command"
-require_relative "./reset_command"
-require_relative "./reaction_command"
 
 module InitTracker
   module Models

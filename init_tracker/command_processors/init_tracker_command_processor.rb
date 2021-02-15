@@ -1,15 +1,4 @@
 # frozen_string_literal: true
-require_relative "../validators/command_validator"
-require_relative "./add_command_processor"
-require_relative "./remove_command_processor"
-require_relative "./start_command_processor"
-require_relative "./stop_command_processor"
-require_relative "./help_command_processor"
-require_relative "./next_command_processor"
-require_relative "./reroll_command_processor"
-require_relative "./display_command_processor"
-require_relative "./reset_command_processor"
-require_relative "./reaction_command_processor"
 
 module InitTracker
   module CommandProcessors

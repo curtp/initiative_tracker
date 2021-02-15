@@ -1,6 +1,3 @@
-require_relative "../validators/command_validator"
-require_relative "../models/init"
-
 module InitTracker
   module CommandProcessors
     class BaseCommandProcessor
