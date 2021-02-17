@@ -88,11 +88,11 @@ module InitTracker
       # it exists. Pass in the ID of a specific init. This only works for the bot owner. This was
       # added for debugging purposes only.
       def find_init(id = nil)
-        if id.present? && command.bot_owner?
-          return InitTracker::Models::Init.where(id: id).first
-        else
+#        if id.present? && command.bot_owner?
+ #         return InitTracker::Models::Init.where(id: id).first
+ #       else
           return InitTracker::Models::Init.where(server_id: command.event.server.id, channel_id: command.event.channel.id).first
-        end
+ #       end
       end
 
       # Removes the command issued to the bot
