@@ -21,6 +21,7 @@ module InitTracker
 
       def reset!
         reset_went
+        reset_up
         save
       end
 
@@ -111,6 +112,13 @@ module InitTracker
         InitTrackerLogger.log.debug("reset went")
         characters.each do |character|
           character[:went] = false
+        end
+      end
+
+      def reset_up
+        InitTrackerLogger.log.debug("reset went")
+        characters.each do |character|
+          character[:up] = false
         end
       end
 
