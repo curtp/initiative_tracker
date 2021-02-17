@@ -41,6 +41,11 @@ bot.server_delete do |event|
   InitTracker::Models::Server.bot_left_server(event)
 end
 
+# This runsn when a channel is removed. This is so the inits can be cleaned up properly.
+bot.channel_delete do |event|
+  InitTracker::Models::Init.channel_removed(event)
+end
+
 # When the bot is ready, set the status so people know how to interact with it
 bot.ready do |event|
   InitTrackerLogger.log.debug("Ready event")
