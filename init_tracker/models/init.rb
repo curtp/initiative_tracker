@@ -20,7 +20,6 @@ module InitTracker
       end
 
       def reset!
-        next!(1)
         reset_went
         save
       end
