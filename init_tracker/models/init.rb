@@ -134,11 +134,14 @@ module InitTracker
 
       def set_character_init_order(character)
         number = nil
+        count = 1
         loop do
           amount, sides, mod = character[:dice].tr("^0-9", " ").split
           number = roll(amount, sides) + mod.to_i
           char = characters.find {|character| character[:number] == number }
           break if char.blank?
+          break if characters.size == count
+          count = count + 1
         end
         character[:number] = number
       end
