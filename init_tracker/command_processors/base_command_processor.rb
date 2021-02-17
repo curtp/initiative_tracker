@@ -85,7 +85,8 @@ module InitTracker
       end
 
       # Locates the initiative model object for the server/channel combination and returns it if
-      # it exists. Pass in the ID of a specific init. This only works for the bot owner.
+      # it exists. Pass in the ID of a specific init. This only works for the bot owner. This was
+      # added for debugging purposes only.
       def find_init(id = nil)
         if id.present? && command.bot_owner?
           return InitTracker::Models::Init.where(id: id).first
