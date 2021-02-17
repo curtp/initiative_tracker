@@ -136,12 +136,8 @@ module InitTracker
 
       def validate
 
-        if !command.bot_owner?
-          if command.instructions.size != 1
-            return {valid: false, error_message: "To display initiative: display"}
-          end
-        elsif command.instructions.size < 1 || command.instructions.size > 2
-          return {valid: false, error_message: "To display initiative: display [id]"}
+        if command.instructions.size != 1
+          return {valid: false, error_message: "To display initiative: display"}
         end
 
         return {valid: true, error_message: ""}

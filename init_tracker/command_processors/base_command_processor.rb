@@ -27,7 +27,7 @@ module InitTracker
         if command.init_required?
           # Retrieve the init. If the command allows providing an initiative number, look for a
           # specific number to retrieve.
-          self.init = find_init(command.try(:init_number))
+          self.init = find_init
           if !init.present?
             result[:success] = false
             result[:error_message] = initiative_not_started_message
@@ -85,14 +85,9 @@ module InitTracker
       end
 
       # Locates the initiative model object for the server/channel combination and returns it if
-      # it exists. Pass in the ID of a specific init. This only works for the bot owner. This was
-      # added for debugging purposes only.
+      # it exists.
       def find_init(id = nil)
-#        if id.present? && command.bot_owner?
- #         return InitTracker::Models::Init.where(id: id).first
- #       else
-          return InitTracker::Models::Init.where(server_id: command.event.server.id, channel_id: command.event.channel.id).first
- #       end
+        return InitTracker::Models::Init.where(server_id: command.event.server.id, channel_id: command.event.channel.id).first
       end
 
       # Removes the command issued to the bot
