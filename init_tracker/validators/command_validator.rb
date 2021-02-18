@@ -35,6 +35,8 @@ module InitTracker
             validator = AddValidator.new(command)
           when "display"
             validator = DisplayValidator.new(command)
+          when "stats"
+            validator = StatsValidator.new(command)
           else
             return {valid: false, error_message: "Unknown command"}
           end
@@ -103,6 +105,18 @@ module InitTracker
         if command.instructions.size != 1
           return {valid: false,
             error_message: "To start initative: start"}
+        end
+        return {valid: true, error_message: ""}
+      end
+    end
+
+    class StatsValidator < BaseValidator
+
+      def validate
+        InitTrackerLogger.log.debug("instructions.size: #{command.instructions.size}")
+
+        if !command.bot_owner?
+          return {valid: false, error_message: "For bot stats: stats"}
         end
         return {valid: true, error_message: ""}
       end

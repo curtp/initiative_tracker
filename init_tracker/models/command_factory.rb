@@ -33,6 +33,8 @@ module InitTracker
           return DisplayCommand.new(event)
         when "reset"
           return ResetCommand.new(event)
+        when "stats"
+          return StatsCommand.new(event)
         else
           return HelpCommand.new(event)
         end

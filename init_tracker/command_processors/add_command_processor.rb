@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-require_relative "./base_command_processor"
+# require_relative "./base_command_processor"
 
 module InitTracker
   module CommandProcessors
