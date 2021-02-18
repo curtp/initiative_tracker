@@ -99,6 +99,16 @@ module InitTracker
         save
       end
 
+      def find_character_by_name(name)
+        InitTrackerLogger.log.info("Find by name: #{name}")
+        characters.select{|char| char[:name].strip.downcase.eql?(name.strip.downcase)}.first
+      end
+
+      # Returns the index for the character passed in
+      def postion_number_for_character(character)
+        characters.find_index {|char| char[:key].eql?(character[:key])}
+      end
+
       def self.channel_removed(event)
         InitTrackerLogger.log.info("Channel: channel removed: '#{event.server.name}' (ID: #{event.id})")
         # Find any inits for this channel and blow them away.

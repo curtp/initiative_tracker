@@ -26,6 +26,7 @@ module InitTracker
         event << "**-- Add/Remove Characters --**"
         event << "!init add '[character name]' [dice] - Adds the character to initiative: !init add 'By Tor' 2d6"
         event << "!init remove [position] - Removes the character from the position: !init remove 2"
+        event << "!init remove '[character name]' - Removes the character by their name: !init remove 'By Tor'"
         event << " "
         event << "**-- Who's Up? --**"
         event << "!init next - Moves to the next character in the list"

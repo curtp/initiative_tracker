@@ -32,6 +32,7 @@ The overall process is simple:
 **Remove Characters**
 ```
 !init remove [position number] - Removes the character at the position given
+!init remove '[character name]' - Removes the character by their name
 ```
 
 **Who's Up?**
