@@ -116,7 +116,7 @@ module InitTracker
         InitTrackerLogger.log.debug("instructions.size: #{command.instructions.size}")
 
         if !command.bot_owner?
-          return {valid: false, error_message: "For bot stats: stats"}
+          return {valid: false, error_message: "Command not available"}
         end
         return {valid: true, error_message: ""}
       end
