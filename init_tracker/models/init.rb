@@ -49,21 +49,21 @@ module InitTracker
           InitTrackerLogger.log.debug {"after reset: - #{characters}"}
         end
 
-        InitTrackerLogger.log.debug("currently up: #{index_of_current_up_character}")
-        InitTrackerLogger.log.debug("position_number: #{position_number}")
+        InitTrackerLogger.log.debug {"currently up: #{index_of_current_up_character}"}
+        InitTrackerLogger.log.debug {"position_number: #{position_number}"}
 
         # If a valid position number was provided, use it
         if position_number.present?
-          InitTrackerLogger.log.debug("Position Number: character at position: #{position_number} is up")
+          InitTrackerLogger.log.debug {"Position Number: character at position: #{position_number} is up"}
           characters[position_number - 1][:up] = true
         else
           # Move through the list of characters to the next character. Circle
           # back to the top of the list when the last character is currently up
           if index_of_current_up_character == characters.size - 1
-            InitTrackerLogger.log.debug("Starting At Top: character at position: 1 is up")
+            InitTrackerLogger.log.debug {"Starting At Top: character at position: 1 is up"}
             characters[0][:up] = true
           else
-            InitTrackerLogger.log.debug("Moving Forward: character at position: #{index_of_current_up_character + 1} is up")
+            InitTrackerLogger.log.debug {"Moving Forward: character at position: #{index_of_current_up_character + 1} is up"}
             characters[index_of_current_up_character + 1][:up] = true
           end
         end
@@ -71,7 +71,7 @@ module InitTracker
       end
 
       def add_character!(character_name, dice, added_by_user)
-        InitTrackerLogger.log.debug("chaacter_name: #{character_name}, dice: #{dice}")
+        InitTrackerLogger.log.debug {"chaacter_name: #{character_name}, dice: #{dice}"}
         character = {}
         character[:name] = character_name
         character[:dice] = dice
@@ -81,7 +81,7 @@ module InitTracker
         character[:went] = false
         set_character_init_order(character)
 
-        InitTrackerLogger.log.debug("adding character: #{character.inspect}")
+        InitTrackerLogger.log.debug {"adding character: #{character.inspect}"}
         if characters.nil?
           self.characters = []
         end
@@ -100,7 +100,7 @@ module InitTracker
       end
 
       def find_character_by_name(name)
-        InitTrackerLogger.log.info("Find by name: #{name}")
+        InitTrackerLogger.log.debug {"Find by name: #{name}"}
         characters.select{|char| char[:name].strip.downcase.eql?(name.strip.downcase)}.first
       end
 
@@ -110,7 +110,7 @@ module InitTracker
       end
 
       def self.channel_removed(event)
-        InitTrackerLogger.log.info("Channel: channel removed: '#{event.server.name}' (ID: #{event.id})")
+        InitTrackerLogger.log.debug {"Channel: channel removed: '#{event.server.name}' (ID: #{event.id})"}
         # Find any inits for this channel and blow them away.
         Init.where(server_id: event.server.id, channel_id: event.id).delete_all
       end
@@ -125,14 +125,14 @@ module InitTracker
       end
 
       def reset_went
-        InitTrackerLogger.log.debug("reset went")
+        InitTrackerLogger.log.debug {"reset went"}
         characters.each do |character|
           character[:went] = false
         end
       end
 
       def reset_up
-        InitTrackerLogger.log.debug("reset went")
+        InitTrackerLogger.log.debug {"reset went"}
         characters.each do |character|
           character[:up] = false
         end
@@ -161,10 +161,10 @@ module InitTracker
       end
 
       def add_missing_attributes
-        InitTrackerLogger.log.debug("adding missing attributes")
+        InitTrackerLogger.log.debug {"adding missing attributes"}
         return if characters.empty?
         return if characters.first.has_key?(:went)
-        InitTrackerLogger.log.debug("calling reset_went")
+        InitTrackerLogger.log.debug {"calling reset_went"}
         reset_went
       end
 
