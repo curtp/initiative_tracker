@@ -34,6 +34,8 @@ module InitTracker
               processor = ResetCommandProcessor.new(command)
             when "stats".freeze
               processor = StatsCommandProcessor.new(command)
+            when "move".freeze
+              processor = MoveCommandProcessor.new(command)
             else
               processor = HelpCommandProcessor.new(command)
             end

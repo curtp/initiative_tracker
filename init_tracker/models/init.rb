@@ -44,6 +44,23 @@ module InitTracker
         save
       end
 
+      def move!(position_number, up)
+        # Nothing to do if there are no characters
+        return if characters.size == 0
+
+        # Ignore the position number if it is out of range
+        if position_number.present? && (position_number < 1 || position_number > characters.size)
+          return
+        end
+
+        position_number = position_number - 1
+        InitTrackerLogger.log.debug {"Moving #{position_number} up: #{up}"}
+        direction = up ? 1 : -1
+        characters[position_number][:order] = characters[position_number][:order] + direction
+        sort_characters
+        save
+      end
+
       def next!(position_number = nil)
         # Nothing to do if there are no characters
         return if characters.size == 0
@@ -173,10 +190,12 @@ module InitTracker
 
       def set_character_init_number(character)
         number = 0
-        count = 0
-        # Max number of times to try and find a unique number for the character
-        max_tries = characters.size + 1
+        # Only roll dice for init if there is a dice command for the character. This
+        # is to allow people to manually provide an init number if they like.
         if character[:dice].present?
+          count = 0
+          # Max number of times to try and find a unique number for the character
+          max_tries = characters.size + 1
           loop do
             amount, sides, mod = character[:dice].tr("^0-9", " ").split
             number = roll(amount, sides) + mod.to_i
@@ -188,9 +207,6 @@ module InitTracker
             # Increment the counter and try again
             count = count + 1
           end
-        else
-          # No dice command for the character, so default it to 0
-          number = 0
         end
         character[:number] = number
       end

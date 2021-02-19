@@ -62,6 +62,14 @@ You can also click the stop button (far right) under the display to stop initiat
 ```
 You can also click the crossing arrows (2nd from right) under the display to re-roll initiative (see screenshot above)
 
+**Break Ties**
+Sometimes there are ties. Use these commands to move a character up or down one position.
+```
+!init move [position number] up - Moves the character at a specific position up
+!init move '[character name]' up - Moves the named character up one position
+!init move '[character name]' down - Moves the named character down one position
+```
+
 **Reset Initiative**
 ```
 !init reset - Clears the done indicators and sets the first character as up

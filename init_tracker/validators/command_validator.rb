@@ -37,6 +37,8 @@ module InitTracker
             validator = DisplayValidator.new(command)
           when "stats"
             validator = StatsValidator.new(command)
+          when "move"
+            validator = MoveValidator.new(command)
           else
             return {valid: false, error_message: "Unknown command"}
           end
@@ -184,6 +186,22 @@ module InitTracker
         return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !command.control_emoji?
 
         # All good, return valid
+        return {valid: true, error_message: ""}
+      end
+
+    end
+
+    class MoveValidator < BaseValidator
+      def validate
+        if command.instructions.size != 3
+          return {valid: false,
+            error_message: "To move a character up or down: move 'character name' up or move "}
+        end
+        if !command.down? && !command.up?
+          return {valid: false,
+            error_message: "Direction must be either 'up' or 'down'."}
+        end
+
         return {valid: true, error_message: ""}
       end
 
