@@ -37,6 +37,8 @@ module InitTracker
         event << " "
         event << "**-- Re-roll Initiative --**"
         event << "!init reroll - Re-rolls initiative for the current characters"
+        event << "!init reroll [position number] - Re-rolls initiative for the specific position"
+        event << "!init reroll '[character name]' - Re-rolls initiative for the specific character"
         event << " "
         event << "**-- Reset Initiative --**"
         event << "!init reset - Clears the done indicators and sets the first character as up"
