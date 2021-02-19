@@ -12,7 +12,14 @@ module InitTracker
       end
   
       def display_error?
-        control_emoji? ? true : false
+        # Only display if it is for a control emoji
+        return false if !control_emoji?
+        # Only for an embed
+        return false if !event.message.embeds.first.present?
+        # Only for an init tracker embed
+        return false if !event.message.embeds.first.title.eql?(InitTracker::CommandProcessors::BaseCommandProcessor::INITIATIVE_DISPLAY_HEADER)
+        # Everything aligns, so display an error
+        return true
       end     
       
       def emoji
