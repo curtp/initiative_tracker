@@ -13,9 +13,22 @@ module InitTracker
       after_initialize :add_missing_attributes
 
       # Rerolls the dice for all characters
-      def reroll!
-        characters.each do |char|
-          set_character_init_order(char)
+      def reroll!(position_number = nil)
+        InitTrackerLogger.log.debug {"Rerolling position #{position_number}"}
+        # Nothing to do if there are no characters
+        return if characters.size == 0
+
+        # Get out if the position number isn't valid
+        return if position_number.present? && (position_number < 1 || position_number > characters.size)
+
+        if position_number.present?
+          InitTrackerLogger.log.debug {"Setting character order for a position"}
+          set_character_init_order(characters[position_number - 1])
+        else
+          InitTrackerLogger.log.debug {"Setting character order for all characters"}
+          characters.each do |char|
+            set_character_init_order(char)
+          end
         end
         sort_characters
         reset!
@@ -48,9 +61,7 @@ module InitTracker
         end
 
         if all_went?
-          InitTrackerLogger.log.debug {"all_went: resetting - #{characters}"}
           reset_went
-          InitTrackerLogger.log.debug {"after reset: - #{characters}"}
         end
 
         InitTrackerLogger.log.debug {"currently up: #{index_of_current_up_character}"}
@@ -112,6 +123,7 @@ module InitTracker
 
       # Returns the index for the character passed in
       def postion_number_for_character(character)
+        return if character.blank?
         characters.find_index {|char| char[:key].eql?(character[:key])}
       end
 
@@ -159,7 +171,7 @@ module InitTracker
       # Sets the characters init order based on the dice. Re-rolls the dice and sets the order
       def set_character_init_order(character)
         number = nil
-        count = 1
+        count = 0
         loop do
           amount, sides, mod = character[:dice].tr("^0-9", " ").split
           number = roll(amount, sides) + mod.to_i

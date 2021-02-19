@@ -19,14 +19,6 @@ module InitTracker
         position_number.present?
       end
 
-      private
-
-      def number_or_nil(string)
-        Integer(string || '')
-      rescue ArgumentError
-        nil
-      end
-
     end
   end
 end

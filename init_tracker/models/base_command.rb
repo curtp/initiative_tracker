@@ -40,6 +40,14 @@ module InitTracker
         return self.event.user.id.to_s.eql?(ENV["BOT_OWNER_ID"].to_s)
       end
       
+      protected
+
+      def number_or_nil(string)
+        Integer(string || '')
+      rescue ArgumentError
+        nil
+      end
+
     end
   end
 end

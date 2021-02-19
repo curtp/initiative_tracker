@@ -81,7 +81,7 @@ module InitTracker
 
         if command.instructions.size != 2
           return {valid: false,
-            error_message: "To remove a character from initative: remove #"}
+            error_message: "To remove a character from initative: remove # or remove 'character name'"}
         end
         return {valid: true, error_message: ""}
       end
@@ -138,8 +138,8 @@ module InitTracker
 
       def validate
 
-        if command.instructions.size != 1
-          return {valid: false, error_message: "To suffle initiative order: reroll"}
+        if command.instructions.size < 1 || command.instructions.size > 2
+          return {valid: false, error_message: "To suffle initiative order: reroll or reroll [position number] or reroll '[character name]'"}
         end
 
         return {valid: true, error_message: ""}
