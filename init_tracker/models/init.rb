@@ -23,10 +23,12 @@ module InitTracker
 
         if position_number.present?
           InitTrackerLogger.log.debug {"Setting character order for a position"}
+          set_character_init_number(characters[position_number - 1])
           set_character_init_order(characters[position_number - 1])
         else
           InitTrackerLogger.log.debug {"Setting character order for all characters"}
           characters.each do |char|
+            set_character_init_number(char)
             set_character_init_order(char)
           end
         end
@@ -94,6 +96,7 @@ module InitTracker
         character[:key] = SecureRandom.alphanumeric
         character[:up] = false
         character[:went] = false
+        set_character_init_number(character)
         set_character_init_order(character)
 
         InitTrackerLogger.log.debug {"adding character: #{character.inspect}"}
@@ -168,20 +171,33 @@ module InitTracker
         characters.sort_by! {|character| character[:order]}.reverse!
       end
 
-      # Sets the characters init order based on the dice. Re-rolls the dice and sets the order
-      def set_character_init_order(character)
-        number = nil
+      def set_character_init_number(character)
+        number = 0
         count = 0
-        loop do
-          amount, sides, mod = character[:dice].tr("^0-9", " ").split
-          number = roll(amount, sides) + mod.to_i
-          char = characters.find {|character| character[:number] == number }
-          break if char.blank?
-          break if characters.size == count
-          count = count + 1
+        # Max number of times to try and find a unique number for the character
+        max_tries = characters.size + 1
+        if character[:dice].present?
+          loop do
+            amount, sides, mod = character[:dice].tr("^0-9", " ").split
+            number = roll(amount, sides) + mod.to_i
+            char = characters.find {|character| character[:number] == number }
+            # No character with the same number, use it
+            break if char.blank?
+            # If the max number of tries is met, get out and just use the last number tried
+            break if count == max_tries
+            # Increment the counter and try again
+            count = count + 1
+          end
+        else
+          # No dice command for the character, so default it to 0
+          number = 0
         end
         character[:number] = number
-        character[:order] = number * ORDER_MULTIPLIER
+      end
+
+      # Sets the characters init order based on the dice. Re-rolls the dice and sets the order
+      def set_character_init_order(character)
+        character[:order] = character[:number] * ORDER_MULTIPLIER
       end
 
       # Rolls the dice
