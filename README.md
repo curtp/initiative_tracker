@@ -57,6 +57,8 @@ You can also click the stop button (far right) under the display to stop initiat
 **Re-roll Initiative**
 ```
 !init reroll - Re-rolls initiative for the current characters
+!init reroll [position number] - Re-rolls initiative for that specific position
+!init reroll '[character name]' - Re-rolls initiative for a specific character
 ```
 You can also click the crossing arrows (2nd from right) under the display to re-roll initiative (see screenshot above)
 
@@ -79,6 +81,8 @@ You can also click the circle arrows (2nd from left) under the display to reset 
 5. Add the following to the .env file:
 ```
 BOT_TOKEN="[Paste Discord Bot Token Here]"
+BOT_OWNER_ID="87654321"
+BOT_OWNER_TIME_ZONE="Central Time (US & Canada)"
 ```
 For Example:  BOT_TOKEN="AbCdefG1928371"
 
