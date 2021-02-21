@@ -149,7 +149,7 @@ module InitTracker
 
       # When the channel is removed, it will wipe out any init associated to it
       def self.channel_removed(event)
-        InitTrackerLogger.log.debug {"Channel: channel removed: '#{event.server.name}' (ID: #{event.id})"}
+        InitTrackerLogger.log.info {"Channel: channel removed: '#{event.server.name}' (ID: #{event.id})"}
         # Find any inits for this channel and blow them away.
         Init.where(server_id: event.server.id, channel_id: event.id).delete_all
       end
