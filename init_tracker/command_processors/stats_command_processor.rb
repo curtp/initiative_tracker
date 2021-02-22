@@ -20,7 +20,7 @@ module InitTracker
         command.event << "Inits:"
         command.event << "  **# Inits:** #{init_count}"
         command.event << "  **Last Added:** #{last_init.created_at.in_time_zone(ENV["BOT_OWNER_TIME_ZONE"]).strftime(datetime_format)}"
-        command.event << "  **Last Updated:** #{last_init.updated_at.in_time_zone(ENV["BOT_OWNER_TIME_ZONE"]).strftime(datetime_format)}"
+        command.event << "  **Last Updated:** #{updated_init.updated_at.in_time_zone(ENV["BOT_OWNER_TIME_ZONE"]).strftime(datetime_format)}"
       end
     end
   end
