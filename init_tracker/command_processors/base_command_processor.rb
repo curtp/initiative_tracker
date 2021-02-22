@@ -128,7 +128,8 @@ module InitTracker
             elsif character[:went]
               box = ":white_check_mark:"
             end
-            msg = msg << "#{box}︲#{bold_char}#{ndx+1} - #{character[:name]} (#{character[:dice]} : #{character[:number]})#{bold_char}\n"
+
+            msg = msg << "#{box}︲#{bold_char}#{ndx+1} - #{character[:name]} (#{character[:dice].present? ? character[:dice] : ' - '} : #{character[:number]})#{bold_char}\n"
           end
           embed.description = msg
         end

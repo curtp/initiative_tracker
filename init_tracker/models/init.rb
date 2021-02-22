@@ -104,16 +104,17 @@ module InitTracker
         save
       end
 
-      def add_character!(character_name, dice, added_by_user)
-        InitTrackerLogger.log.debug {"chaacter_name: #{character_name}, dice: #{dice}"}
+      def add_character!(character_name, dice, number, added_by_user)
+        InitTrackerLogger.log.debug {"chaacter_name: #{character_name}, dice: #{dice}, number: #{number}"}
         character = {}
         character[:name] = character_name
-        character[:dice] = dice
+        character[:dice] = dice if dice.present?
         character[:added_by_user] = added_by_user.id
         character[:key] = SecureRandom.alphanumeric
         character[:up] = false
         character[:went] = false
-        set_character_init_number(character)
+        set_character_init_number(character) if number.blank?
+        character[:number] = number.to_i if number.present?
         set_character_init_order(character)
 
         InitTrackerLogger.log.debug {"adding character: #{character.inspect}"}

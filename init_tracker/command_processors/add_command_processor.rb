@@ -6,7 +6,11 @@ module InitTracker
     class AddCommandProcessor < BaseCommandProcessor
 
       def child_process(result)
-        init.add_character!(command.character_name, command.dice, command.event.user)
+        if command.dice_formatted_properly?
+          init.add_character!(command.character_name, command.dice, nil, command.event.user)
+        else
+          init.add_character!(command.character_name, nil, command.number, command.event.user)
+        end
 
         InitTrackerLogger.log.debug {"AddCommandProcessor.process: result: #{result}"}
       end
