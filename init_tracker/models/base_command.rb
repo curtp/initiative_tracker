@@ -47,7 +47,7 @@ module InitTracker
       rescue ArgumentError
         nil
       end
-
+      
     end
   end
 end

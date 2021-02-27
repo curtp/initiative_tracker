@@ -37,6 +37,8 @@ module InitTracker
           return StatsCommand.new(event)
         when "move"
           return MoveCommand.new(event)
+        when "update"
+          return UpdateCommand.new(event)
         else
           return HelpCommand.new(event)
         end

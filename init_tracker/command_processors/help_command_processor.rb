@@ -5,13 +5,12 @@ module InitTracker
     class HelpCommandProcessor < BaseCommandProcessor
 
       def child_process(result)
+        InitTrackerLogger.log.debug {"building the help message"}
         HelpCommandProcessor.build_help_message(command.event)
       end
 
       def self.build_help_message(event)
         event << "**Welcome to The Initiative Tracker**"
-        event << " "
-        event << "Track initiative by starting it, then adding characters, then progressing through the list until initiative is no longer needed. Initiative is run at the channel level, so it is possible to have multiple initatives active across multiple channels."
         event << " "
         event << "The overall process is simple:"
         event << "1) Start inititive for the channel"
@@ -19,36 +18,37 @@ module InitTracker
         event << "3) Use the next command to advance initiative"
         event << "4) When done, stop initiative"
         event << " "
+        event << "For detailed instructions see: <https://github.com/curtp/initiative_tracker>"
+        event << " "
         event << "**-- Start/Stop Initiative --**"
         event << "!init start - Starts initiative in the channel"
         event << "!init stop - Stops initiative for the channel"
         event << " "
         event << "**-- Add/Remove Characters --**"
-        event << "!init add '[character name]' [dice] - Adds the character to initiative: !init add 'By Tor' 2d6"
-        event << "!init remove [position] - Removes the character from the position: !init remove 2"
-        event << "!init remove '[character name]' - Removes the character by their name: !init remove 'By Tor'"
+        event << "!init add '[character name]' [dice] - Adds the character to initiative"
+        event << "!init add '[character name]' [number] - Adds the character to initiative with a specific number"
+        event << "!init remove '[character name]' - Removes the character from the position"
+        event << " "
+        event << "**-- Update Characters Dice or Number --**"
+        event << "!init update '[character name]' [dice] - Updates the dice command for the named character"
+        event << "!init update '[character name]' [number] - Updates the number for the named character"
         event << " "
         event << "**-- Who's Up? --**"
         event << "!init next - Moves to the next character in the list"
-        event << "!init next [position number] - Set the next character to be up: !init next 3"
+        event << "!init next '[character name]' - Set the next character to be up"
         event << " "
         event << "**-- Display Initiative --**"
         event << "!init display - Show the current initiative status"
         event << " "
         event << "**-- Re-roll Initiative --**"
         event << "!init reroll - Re-rolls initiative for the current characters"
-        event << "!init reroll [position number] - Re-rolls initiative for the specific position"
-        event << "!init reroll '[character name]' - Re-rolls initiative for the specific character"
+        event << "!init reroll '[character name]' - Re-rolls initiative for the specific position"
         event << " "
         event << "**-- Break Ties --**"
-        event << "Sometimes there are ties. Use these commands to move a character up or down one position."
-        event << "!init move [position number] up - Moves the character at a specific position up"
-        event << "!init move '[character name]' up - Moves the named character up one position"
+        event << "!init move '[character name]' up - Moves the character at a specific position up"
         event << " "
         event << "**-- Reset Initiative --**"
         event << "!init reset - Clears the done indicators and sets the first character as up"
-        event << " "
-        event << "!init help - Display this help message <https://github.com/curtp/initiative_tracker>"
       end
 
     end

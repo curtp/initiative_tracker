@@ -15,28 +15,30 @@ module InitTracker
             InitTrackerLogger.log.info("InitTrackerCommandProcessor: Server: #{command.event.server.id}, User: #{command.event.user.name} issued command: #{command.event.message.content}")            
             
             case command.base_instruction
-            when "add".freeze
+            when "add"
               processor = AddCommandProcessor.new(command)
-            when "remove".freeze
+            when "remove"
               processor = RemoveCommandProcessor.new(command)
-            when "start".freeze
+            when "start"
               processor = StartCommandProcessor.new(command)
-              init_required = false
-            when "stop".freeze
+            when "stop"
               processor = StopCommandProcessor.new(command)
-            when "next".freeze
+            when "next"
               processor = NextCommandProcessor.new(command)
-            when "reroll".freeze
+            when "reroll"
               processor = RerollCommandProcessor.new(command)
-            when "display".freeze
+            when "display"
               processor = DisplayCommandProcessor.new(command)
-            when "reset".freeze
+            when "reset"
               processor = ResetCommandProcessor.new(command)
-            when "stats".freeze
+            when "stats"
               processor = StatsCommandProcessor.new(command)
-            when "move".freeze
+            when "move"
               processor = MoveCommandProcessor.new(command)
+            when "update"
+              processor = UpdateCommandProcessor.new(command)
             else
+              InitTrackerLogger.log.debug {"Creating the help command processor"}
               processor = HelpCommandProcessor.new(command)
             end
           end

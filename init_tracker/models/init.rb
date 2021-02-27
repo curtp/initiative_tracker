@@ -16,10 +16,10 @@ module InitTracker
       def reroll!(position_number = nil)
         InitTrackerLogger.log.debug {"Rerolling position #{position_number}"}
         # Nothing to do if there are no characters
-        return if characters.size == 0
+        return if !has_characters?
 
         # Get out if the position number isn't valid
-        return if position_number.present? && (position_number < 1 || position_number > characters.size)
+        return if position_number.present? && !position_number_valid?(position_number)
 
         if position_number.present?
           InitTrackerLogger.log.debug {"Setting character order for a position"}
@@ -46,12 +46,10 @@ module InitTracker
 
       def move!(position_number, up)
         # Nothing to do if there are no characters
-        return if characters.size == 0
+        return if !has_characters?
 
         # Ignore the position number if it is out of range
-        if position_number.present? && (position_number < 1 || position_number > characters.size)
-          return
-        end
+        return if position_number.present? && !position_number_valid?(position_number)
 
         position_number = position_number - 1
         InitTrackerLogger.log.debug {"Moving #{position_number} up: #{up}"}
@@ -61,14 +59,35 @@ module InitTracker
         save
       end
 
-      def next!(position_number = nil)
+      def update!(position_number, dice, number)
         # Nothing to do if there are no characters
-        return if characters.size == 0
+        return if !has_characters?
 
         # Ignore the position number if it is out of range
-        if position_number.present? && (position_number < 1 || position_number > characters.size)
-          position_number = nil
+        return if position_number.present? && !position_number_valid?(position_number)
+
+        position_number = position_number - 1
+
+        InitTrackerLogger.log.debug("update: position: #{position_number}, #{dice}, #{number}")
+				characters[position_number][:dice] = dice.present? ? dice : nil
+				characters[position_number][:number] = number.present? ? number.to_i : 0
+        InitTrackerLogger.log.debug("update: character: #{characters[position_number]}")
+
+        if dice.present?
+          reroll!(position_number + 1)
+        else
+          set_character_init_order(characters[position_number])
+          sort_characters
+          save
         end
+      end
+
+      def next!(position_number = nil)
+        # Nothing to do if there are no characters
+        return if !has_characters?
+
+        # Ignore the position number if it is out of range
+        return if position_number.present? && !position_number_valid?(position_number)
 
         # Find the current character who is up
         index_of_current_up_character = characters.find_index {|char| char[:up]}
@@ -128,7 +147,8 @@ module InitTracker
 
       # Removes the character at the position provided
       def remove_character!(position_number)
-        return if position_number < 1 || position_number > characters.size
+        return if !has_characters?
+        return if !position_number_valid?(position_number)
         if characters[position_number - 1][:up]
           next!
         end
@@ -142,10 +162,10 @@ module InitTracker
         characters.select{|char| char[:name].strip.downcase.eql?(name.strip.downcase)}.first
       end
 
-      # Returns the index for the character passed in
+      # Returns the position number for the character passed in
       def postion_number_for_character(character)
         return if character.blank?
-        characters.find_index {|char| char[:key].eql?(character[:key])}
+        characters.find_index {|char| char[:key].eql?(character[:key])} + 1
       end
 
       # When the channel is removed, it will wipe out any init associated to it
@@ -220,6 +240,17 @@ module InitTracker
       # Rolls the dice
       def roll(amount = 0, sides = 0)
         amount.to_i.times.sum { |t| SecureRandom.random_number(1..sides.to_i) }
+      end
+
+      # Returns true if the position number is valid for the character list
+      def position_number_valid?(position_number)
+        return false if position_number < 1 || position_number > characters.size
+        return true
+      end
+
+      # Returns true if there are characters
+      def has_characters?
+        characters.size > 0
       end
 
       # When the init loads, look for any missing character attributes and add them

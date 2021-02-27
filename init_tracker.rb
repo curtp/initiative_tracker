@@ -7,6 +7,7 @@ require "yaml"
 # Load up classes which have early dependencies first
 require_relative './init_tracker/command_processors/base_command_processor'
 require_relative './init_tracker/models/base_command'
+require_relative './init_tracker/models/concerns/dice_concern'
 
 # Load non-Discordrb modules
 Dir["#{File.dirname(__FILE__)}/init_tracker/**/*.rb"].each { |f| load(f) }

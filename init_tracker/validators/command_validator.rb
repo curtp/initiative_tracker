@@ -39,6 +39,8 @@ module InitTracker
             validator = StatsValidator.new(command)
           when "move"
             validator = MoveValidator.new(command)
+          when "update"
+            validator = UpdateValidator.new(command)
           else
             return {valid: false, error_message: "Unknown command"}
           end
@@ -205,6 +207,16 @@ module InitTracker
         return {valid: true, error_message: ""}
       end
 
+    end
+
+    class UpdateValidator < BaseValidator
+      def validate
+        if command.instructions.size != 3
+          return {valid: false, error_message: "To update a character: update 'character name' 2d6"}
+        end
+
+        return {valid: true, error_message: ""}
+      end
     end
 
   end

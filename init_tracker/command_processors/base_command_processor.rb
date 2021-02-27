@@ -106,6 +106,13 @@ module InitTracker
         return get_bot_profile.permission?(:embed_links, command.event.channel)
       end
 
+      # Returns the position number for the named character. Returns nil if the character doesn't exist
+      def position_number_for_character(character_name)
+        char = init.find_character_by_name(command.character_name)
+        return nil if char.blank?
+        return init.postion_number_for_character(char)
+      end
+
       private
 
       # Returns the bot profile

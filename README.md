@@ -26,19 +26,29 @@ The overall process is simple:
 
 **Add Characters**
 ```
-!init add '[character name]' [dice] - Adds the character to initiative: !init add 'By Tor' 2d6+1
+!init add '[character name]' [dice] - Adds the character to initiative"
+!init add '[character name]' [number] - Adds the character to initiative with a specific number
 ```
 
 **Remove Characters**
 ```
-!init remove [position number] - Removes the character at the position given
+!init remove [position number] - Removes the character from the position
 !init remove '[character name]' - Removes the character by their name
+```
+
+**Update Characters Dice or Number**
+```
+!init update '[character name]' [dice] - Updates the dice command for the named character
+!init update '[character name]' [number] - Updates the number for the named character
+!init update [position number] [dice] - Updates the dice command for the character at the position
+!init update [position number] [number] - Updates the number for the character at the position
 ```
 
 **Who's Up?**
 ```
 !init next - Moves to the next character in the list
-!init next [position number] - Set the next character to be up: !init next 3
+!init next [position number] - Set the next character to be up
+!init next '[character name]' - Set the next character to be up
 ```
 
 You can also click the right arrow (far left) under the display to move to the next character (see screenshot above)
@@ -57,8 +67,8 @@ You can also click the stop button (far right) under the display to stop initiat
 **Re-roll Initiative**
 ```
 !init reroll - Re-rolls initiative for the current characters
-!init reroll [position number] - Re-rolls initiative for that specific position
-!init reroll '[character name]' - Re-rolls initiative for a specific character
+!init reroll [position number] - Re-rolls initiative for the specific position
+!init reroll '[character name]' - Re-rolls initiative for the specific character
 ```
 You can also click the crossing arrows (2nd from right) under the display to re-roll initiative (see screenshot above)
 
@@ -66,8 +76,7 @@ You can also click the crossing arrows (2nd from right) under the display to re-
 Sometimes there are ties. Use these commands to move a character up or down one position.
 ```
 !init move [position number] up - Moves the character at a specific position up
-!init move '[character name]' up - Moves the named character up one position
-!init move '[character name]' down - Moves the named character down one position
+!init move '[character name]' up - Moves the named character up
 ```
 
 **Reset Initiative**
