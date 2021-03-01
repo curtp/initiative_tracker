@@ -54,7 +54,7 @@ module InitTracker
             reset_commands = "> Clears all done indicators\n"
             reset_commands += "> `!init reset`"
             embed.add_field(name: "Reset Initiative", value: reset_commands, inline: false)
-            embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Version: #{InitTracker::Version::VERSION}")
+            embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Version: #{InitTracker::Version::VERSION} | https://github.com/curtp/initiative_tracker")
           end
         else
           event << "**Welcome to The Initiative Tracker**"
