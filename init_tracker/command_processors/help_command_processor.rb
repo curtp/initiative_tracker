@@ -32,7 +32,7 @@ module InitTracker
             update_commands += "> `!init update [position number] [dice]`\n"
             update_commands += "> `!init update '[character name]' [number]`\n"
             update_commands += "> `!init update [position number] [number]`\n"
-            embed.add_field(name: "Update Characters or Dice Number", value: update_commands, inline: false)
+            embed.add_field(name: "Update Characters Dice or Number", value: update_commands, inline: false)
             up_commands = "> Move to the next character in order\n"
             up_commands += "> `!init next`\n"
             up_commands += "> \n> Set the next character to be up\n"
