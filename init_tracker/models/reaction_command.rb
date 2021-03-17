@@ -23,7 +23,7 @@ module InitTracker
       end     
       
       def emoji
-        event.emoji.to_s
+        event.try(:emoji).to_s
       end
 
       def display_init?
