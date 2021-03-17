@@ -182,7 +182,7 @@ module InitTracker
         return {valid: false, error_message: "not for an embeds"} if command.event.message.try(:embeds).empty?
 
         # Make sure it is for an inittracker embed
-        return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.try(:embeds).first.title.eql?(InitTracker::CommandProcessors::BaseCommandProcessor::INITIATIVE_DISPLAY_HEADER)
+        return {valid: false, error_message: "not an initative tracker embed"} if !command.event.message.try(:embeds).first.title.start_with?(InitTracker::CommandProcessors::BaseCommandProcessor::INITIATIVE_DISPLAY_HEADER)
 
         # Make sure it is for one of the used emojis
         return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !command.control_emoji?

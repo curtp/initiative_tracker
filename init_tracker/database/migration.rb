@@ -8,6 +8,7 @@ module InitTracker
             table.string :channel_id
             table.string :started_by_user
             table.text :characters
+            table.integer :round
             table.integer :lock_version
             table.timestamps
             table.index :server_id
@@ -28,6 +29,11 @@ module InitTracker
             table.timestamps
           end
         end
+
+        if !column_exists?(:inits, :round)
+          add_column :inits, :round, :integer, default: 0
+        end
+        
       end
 
       def down

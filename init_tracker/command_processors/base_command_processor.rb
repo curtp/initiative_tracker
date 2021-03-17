@@ -124,7 +124,7 @@ module InitTracker
       def print_embed_init(init)
         InitTrackerLogger.log.debug("embed init")
         message = command.event.channel.send_embed do |embed|
-          embed.title = INITIATIVE_DISPLAY_HEADER
+          embed.title = "#{INITIATIVE_DISPLAY_HEADER} - Round: #{init.round}"
           embed.colour = 3447003  # Green = 513848
           msg = ""
           init.characters.each_with_index do |character, ndx|
@@ -149,7 +149,7 @@ module InitTracker
 
       # Prints the intiative order as a code block
       def print_code_init(init)
-        header = INITIATIVE_DISPLAY_HEADER
+        header = "#{INITIATIVE_DISPLAY_HEADER} - Round: #{init.round}"
         length = header.size
         command.event << "```"
         command.event << header

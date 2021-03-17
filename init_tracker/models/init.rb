@@ -33,14 +33,15 @@ module InitTracker
           end
         end
         sort_characters
-        reset!
+        reset!(false)
         save
       end
 
       # Resets the went and up status for all characters
-      def reset!
+      def reset!(reset_counter = true)
         reset_went
         reset_up
+        reset_round_counter if reset_counter
         save
       end
 
@@ -100,6 +101,9 @@ module InitTracker
 
         if all_went?
           reset_went
+          increment_round_counter
+        elsif round.eql?(0) #none_went?
+          increment_round_counter
         end
 
         InitTrackerLogger.log.debug {"currently up: #{index_of_current_up_character}"}
@@ -183,11 +187,24 @@ module InitTracker
         return !yet_to_go.present?
       end
 
+      def none_went?
+        went = characters.detect {|character| character[:went] == true}
+        return went.blank?
+      end
+
       # Resets the went status for all characters
       def reset_went
         characters.each do |character|
           character[:went] = false
         end
+      end
+
+      def reset_round_counter
+        self.round = 0
+      end
+
+      def increment_round_counter
+        self.round += 1
       end
 
       # Sets the order for all characters based on the number assigned to them
