@@ -1,7 +1,7 @@
 # Initiative Tracker
 Discord bot for tracking initiative for RPG games
 
-This is a work in progress however, it is ready for general use. [Invite Link](https://discord.com/api/oauth2/authorize?client_id=805509626107396166&permissions=18432&scope=bot)
+This is a work in progress however, it is ready for general use. [Invite Link](https://discord.com/api/oauth2/authorize?client_id=805509626107396166&permissions=26688&scope=bot)
 
 <img src="https://github.com/curtp/initiative_tracker/blob/main/docs/init_tracker_screenshot.png?raw=true" width='50%'>
 The reactions under the display act as shortcuts for simple interaction. See descriptions of actions below. In the screenshot above, Frodo is finished, Gandalf is up, and Samwise hasn't gone yet.
@@ -59,7 +59,7 @@ You can also click the right arrow (far left) under the display to move to the n
 ```
 !init stop - Stops initiative for the channel
 ```
-You can also click the stop button (far right) under the display to stop initiative (see screenshot above)
+You can also click the trash can (far right) under the display to stop initiative (see screenshot above)
 
 **Display Initiative**
 ```
