@@ -14,36 +14,47 @@ module InitTracker
       def process
         result = build_success_result
 
-        # Make sure the command is valid before continuing
-        validation_result = validate_command
-        if !validation_result[:valid]
-          result[:success] = false
-          result[:error_message] = validation_result[:error_message]
-          InitTrackerLogger.log.debug {"BaseCommandProcessor.process: validation failed returning result: #{result}"}
-          return result
-        end
+        if permissions_valid?
 
-        # If the command requires the init object, then look for it
-        if command.init_required?
-          # Retrieve the init. If the command allows providing an initiative number, look for a
-          # specific number to retrieve.
-          self.init = find_init
-          if !init.present?
+          # Make sure the command is valid before continuing
+          validation_result = validate_command
+          if !validation_result[:valid]
             result[:success] = false
-            result[:error_message] = initiative_not_started_message
-            InitTrackerLogger.log.debug {"BaseCommandProcessor.process: init not started returning result: #{result}"}
+            result[:error_message] = validation_result[:error_message]
+            InitTrackerLogger.log.debug {"BaseCommandProcessor.process: validation failed returning result: #{result}"}
             return result
           end
+
+          # If the command requires the init object, then look for it
+          if command.init_required?
+            # Retrieve the init. If the command allows providing an initiative number, look for a
+            # specific number to retrieve.
+            self.init = find_init
+            if !init.present?
+              result[:success] = false
+              result[:error_message] = initiative_not_started_message
+              InitTrackerLogger.log.debug {"BaseCommandProcessor.process: init not started returning result: #{result}"}
+              return result
+            end
+          end
+
+          # Execute the command specific logic in the child class
+          child_process(result)
+
+          # If everything worked and the command should display initiative, display it
+          if result[:success] && init.present?
+            if command.edit_init?
+              InitTrackerLogger.log.debug {"Calling edit embed"}
+              edit_embed_init
+            elsif command.display_init?
+              InitTrackerLogger.log.debug {"Printing init"}
+              print_init(init)
+            end
+          end
+        else
+          result[:success] = false
+          result[:error_message] = "Invalid bot permissions"
         end
-
-        # Execute the command specific logic in the child class
-        child_process(result)
-
-        # If everything worked and the command should display initiative, display it
-        if result[:success] && command.display_init?
-          print_init(init)
-        end
-
         return result
       end
 
@@ -57,11 +68,6 @@ module InitTracker
       # Simple method for building the success result returned from the command objects
       def build_success_result
         result = {success: true, error_message: ""}
-      end
-
-      # Prints the init based on what permissions the bot has
-      def print_init(init)
-        has_embed_permission? ? print_embed_init(init) : print_code_init(init)
       end
 
       # Returns true if initiative has been started for the channel
@@ -106,6 +112,14 @@ module InitTracker
         return get_bot_profile.permission?(:embed_links, command.event.channel)
       end
 
+      def has_add_reactions_permission?
+        return get_bot_profile.permission?(:add_reactions, command.event.channel)
+      end
+
+      def has_send_messages_permission?
+        return get_bot_profile.permission?(:send_messages, command.event.channel)
+      end
+
       # Returns the position number for the named character. Returns nil if the character doesn't exist
       def position_number_for_character(character_name)
         char = init.find_character_by_name(command.character_name)
@@ -121,24 +135,13 @@ module InitTracker
       end
 
       # Prints the intiative order as an embed
-      def print_embed_init(init)
+      def print_init(init)
         InitTrackerLogger.log.debug("embed init")
+        new_embed = build_embed
         message = command.event.channel.send_embed do |embed|
-          embed.title = "#{INITIATIVE_DISPLAY_HEADER} - Round: #{init.round}"
-          embed.colour = 3447003  # Green = 513848
-          msg = ""
-          init.characters.each_with_index do |character, ndx|
-            bold_char = character[:up] ? "**" : nil
-            box = ":green_square:".freeze
-            if character[:up]
-              box = ":eight_spoked_asterisk:".freeze
-            elsif character[:went]
-              box = ":white_check_mark:"
-            end
-
-            msg = msg << "#{box}︲#{bold_char}#{ndx+1} - #{character[:name]} (#{character[:dice].present? ? character[:dice] : ' - '} : #{character[:number]})#{bold_char}\n"
-          end
-          embed.description = msg
+          embed.title = new_embed[:title]
+          embed.colour = new_embed[:color]
+          embed.description = new_embed[:description]
         end
 
         # Add the reaction emojis
@@ -147,25 +150,67 @@ module InitTracker
         end
       end
 
-      # Prints the intiative order as a code block
-      def print_code_init(init)
-        header = "#{INITIATIVE_DISPLAY_HEADER} - Round: #{init.round}"
-        length = header.size
-        command.event << "```"
-        command.event << header
-        command.event << "=" * length
-        init.characters.each_with_index do |character, ndx|
-          msg = "#{ndx+1} - #{character[:name]} (#{character[:dice]} : #{character[:number]})"
-          if character[:went]
-            msg = msg << " (done)"
-          end
-          if character[:up]
-            msg = msg << " <= You're Up!"
-          end
-          command.event << msg
-        end
-        command.event << "```"
+      def edit_embed_init
+        InitTrackerLogger.log.debug("embed init")
+        message = command.event.message
+        embed = build_embed
+        message.edit(nil, embed)
+        # Remove the reaction which caused this to happen
+        message.delete_reaction(command.event.user, command.emoji)
       end
+
+      def build_embed
+        embed = {}
+        embed[:title] = "#{INITIATIVE_DISPLAY_HEADER} - Round: #{init.round}"
+        embed[:color] = 3447003
+        msg = ""
+        init.characters.each_with_index do |character, ndx|
+          bold_char = character[:up] ? "**" : nil
+          box = ":green_square:".freeze
+          if character[:up]
+            box = ":eight_spoked_asterisk:".freeze
+          elsif character[:went]
+            box = ":white_check_mark:"
+          end
+
+          msg = msg << "#{box}︲#{bold_char}#{ndx+1} - #{character[:name]} (#{character[:dice].present? ? character[:dice] : ' - '} : #{character[:number]})#{bold_char}\n"
+        end
+        embed[:description] = msg
+
+        return embed
+      end
+
+      def permissions_valid?
+        valid = true
+        message = "Please assign the following permissions to the Initiative Tracker bot for it to work properly:\n"
+        if !has_manage_messages_permission?
+          message << "\n * Manage Messages"
+          valid = false
+        end
+
+        if !has_embed_permission?
+          message << "\n * Embed Links"
+          valid = false
+        end
+
+        if !has_add_reactions_permission?
+          message << "\n * Add Reactions"
+          valid = false
+        end
+
+        if !has_send_messages_permission?
+          message << "\n * Send Messages"
+          valid = false
+        end
+
+        InitTrackerLogger.log.debug("valid: #{valid}")
+        if !valid
+          command.event.server.owner.pm(message)
+        end
+
+        return valid
+      end
+
     end
   end
 end
