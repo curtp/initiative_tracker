@@ -5,6 +5,8 @@ module InitTracker
     class DisplayCommandProcessor < BaseCommandProcessor
 
       def child_process(result)
+        # Remove the message id from the init so it will be replaced with a new one
+        init.message_id = nil
         # Do nothing because the base class will display the init if the command is configured to do so
         InitTrackerLogger.log.debug {"DisplayCommandProcessor.process: result: #{result}"}
       end

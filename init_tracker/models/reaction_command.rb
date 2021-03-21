@@ -30,14 +30,12 @@ module InitTracker
         event.try(:emoji).to_s
       end
 
-      def edit_init?
-        return false if emoji.eql?(STOP_EMOJI)
+      def reaction_command?
         return true
       end
 
       def display_init?
         return false if emoji.eql?(STOP_EMOJI)
-        return false if edit_init?
         return true
       end
     end

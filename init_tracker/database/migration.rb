@@ -9,6 +9,7 @@ module InitTracker
             table.string :started_by_user
             table.text :characters
             table.integer :round
+            table.string :message_id
             table.integer :lock_version
             table.timestamps
             table.index :server_id
@@ -30,8 +31,8 @@ module InitTracker
           end
         end
 
-        if !column_exists?(:inits, :round)
-          add_column :inits, :round, :integer, default: 0
+        if !column_exists?(:inits, :message_id)
+          add_column :inits, :message_id, :string, default: nil
         end
         
       end

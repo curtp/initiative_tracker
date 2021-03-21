@@ -43,13 +43,7 @@ module InitTracker
 
           # If everything worked and the command should display initiative, display it
           if result[:success] && init.present?
-            if command.edit_init?
-              InitTrackerLogger.log.debug {"Calling edit embed"}
-              edit_embed_init
-            elsif command.display_init?
-              InitTrackerLogger.log.debug {"Printing init"}
-              print_init(init)
-            end
+            edit_or_display_init(init)
           end
         else
           # When there are permission issues, do not display an error since the response will
@@ -134,6 +128,23 @@ module InitTracker
         bot_profile = command.event.bot.profile.on(command.event.server)
       end
 
+      def edit_or_display_init(init)
+        if command.display_init?
+          if init.message_id.present?
+            message = command.event.channel.load_message(init.message_id)
+            if message.present?
+              InitTrackerLogger.log.debug {"Calling edit embed"}
+              edit_embed_init(init, message)
+            else
+              print_init(init)
+            end
+          else
+            InitTrackerLogger.log.debug {"Printing init"}
+            print_init(init)
+          end
+        end
+      end
+
       # Prints the intiative order as an embed
       def print_init(init)
         InitTrackerLogger.log.debug("embed init")
@@ -148,15 +159,19 @@ module InitTracker
         InitTracker::Models::ReactionCommand::EMOJIS.each do |emoji|
           message.create_reaction(emoji)
         end
+
+        # Stamp the message id on the init so it can be referenced later
+        init.update_attribute(:message_id, message.id)
       end
 
-      def edit_embed_init
+      def edit_embed_init(init, message)
         InitTrackerLogger.log.debug("embed init")
-        message = command.event.message
         embed = build_embed
         message.edit(nil, embed)
-        # Remove the reaction which caused this to happen
-        message.delete_reaction(command.event.user, command.emoji)
+        if command.reaction_command?
+          # Remove the reaction which caused this to happen
+          message.delete_reaction(command.event.user, command.emoji)
+        end
       end
 
       def build_embed
