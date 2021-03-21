@@ -31,6 +31,10 @@ module InitTracker
           end
         end
 
+        if !column_exists?(:inits, :round)
+          add_column :inits, :round, :integer, default: 0
+        end
+
         if !column_exists?(:inits, :message_id)
           add_column :inits, :message_id, :string, default: nil
         end
