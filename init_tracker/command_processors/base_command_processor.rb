@@ -52,8 +52,8 @@ module InitTracker
             end
           end
         else
-          result[:success] = false
-          result[:error_message] = "Invalid bot permissions"
+          # When there are permission issues, do not display an error since the response will
+          # inform the user or server owner about the issue
         end
         return result
       end
@@ -205,7 +205,11 @@ module InitTracker
 
         InitTrackerLogger.log.debug("valid: #{valid}")
         if !valid
-          command.event.server.owner.pm(message)
+          if has_send_messages_permission?
+            command.event.send_message(message)
+          else
+            command.event.server.owner.pm(message)
+          end
         end
 
         return valid
