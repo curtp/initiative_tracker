@@ -17,7 +17,7 @@ module InitTracker
           start_stop_commands = "> Start initiative in a channel\n"
           start_stop_commands += "> `!init start`\n"
           start_stop_commands += "> \n> Stop and remove initiative from a channel\n"
-          start_stop_commands += "> `!init stop`"
+          start_stop_commands += "> 🗑 or `!init stop`"
           embed.add_field(name: "Start/Stop Initiative", value: start_stop_commands, inline: false)
           add_remove_commands = "> Add a character to initiative with a dice command\n"
           add_remove_commands += "> `!init add '[character name]' [dice]`\n"
@@ -33,7 +33,7 @@ module InitTracker
           update_commands += "> `!init update [position number] [number]`\n"
           embed.add_field(name: "Update Characters Dice or Number", value: update_commands, inline: false)
           up_commands = "> Move to the next character in order\n"
-          up_commands += "> `!init next`\n"
+          up_commands += "> ▶️ or `!init next`\n"
           up_commands += "> \n> Set the next character to be up\n"
           up_commands += "> `!init next '[character name]'`\n"
           up_commands += "> `!init next [position number]`"
@@ -41,7 +41,7 @@ module InitTracker
           display_commands = "> `!init display`"
           embed.add_field(name: "Display Initiative Order", value: display_commands, inline: false)
           reroll_commands = "> Re-rolls initiative for all characters\n"
-          reroll_commands += "> `!init reroll`\n"
+          reroll_commands += "> 🔀 or `!init reroll`\n"
           reroll_commands += "> \n> Re-roll initiative for a specific character\n"
           reroll_commands += "> `!init reroll '[character name]'`\n"
           reroll_commands += "> `!init reroll [position number]`\n"
@@ -51,7 +51,7 @@ module InitTracker
           tie_commands += "> `!init move [position number] up`\n"
           embed.add_field(name: "Break Ties", value: tie_commands, inline: false)
           reset_commands = "> Clears all done indicators\n"
-          reset_commands += "> `!init reset`"
+          reset_commands += "> 🔁 or `!init reset`\n"
           embed.add_field(name: "Reset Initiative", value: reset_commands, inline: false)
           embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Version: #{InitTracker::Version::VERSION} | https://github.com/curtp/initiative_tracker")
         end
