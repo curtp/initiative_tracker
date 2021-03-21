@@ -59,7 +59,7 @@ You can also click the right arrow (far left) under the display to move to the n
 ```
 !init stop - Stops initiative for the channel
 ```
-You can also click the stop button (far right) under the display to stop initiative (see screenshot above)
+You can also click the trash can (far right) under the display to stop initiative (see screenshot above)
 
 **Display Initiative**
 ```
