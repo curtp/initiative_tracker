@@ -183,10 +183,10 @@ module InitTracker
       def permissions_valid?
         valid = true
         message = "Please assign the following permissions to the Initiative Tracker bot for it to work properly:\n"
-        if !has_manage_messages_permission?
-          message << "\n * Manage Messages"
-          valid = false
-        end
+#        if !has_manage_messages_permission?
+#          message << "\n * Manage Messages"
+#          valid = false
+#        end
 
         if !has_embed_permission?
           message << "\n * Embed Links"
