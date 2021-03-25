@@ -189,6 +189,7 @@ module InitTracker
           return {valid: false, error_message: "not one of the initiatve tracker emojis"} if !command.control_emoji?
         rescue Exception => e
           InitTrackerLogger.log.error("Issue processing reaction: #{e}")
+          InitTrackerLogger.log.error(e.backtrace.join("\n"))
           return {valid: false, error_message: ""}
         end
         
