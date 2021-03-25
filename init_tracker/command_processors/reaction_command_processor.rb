@@ -6,6 +6,14 @@ module InitTracker
 
       def child_process(result)
 
+        # If the init has a pointer to the message for initiative, then make sure the event is for
+        # the same initiative message
+        if init.message_id.present? && !command.event.message.id.to_s.eql?(init.message_id)
+          result[:success] = false
+          result[:error_message] = "reaction on something other than the init embed."
+          return result
+        end
+
         case command.emoji
         when InitTracker::Models::ReactionCommand::NEXT_EMOJI
           init.next!

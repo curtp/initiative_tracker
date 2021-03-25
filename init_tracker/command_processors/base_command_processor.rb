@@ -14,6 +14,14 @@ module InitTracker
       def process
         result = build_success_result
 
+        # If this is a reaction command, make sure the reaction is on the embed before continuing. 
+        # If it isn't then act like everything is ok.
+        #
+        # TODO: Move this into the reaction processor. Need some sort of pre-processing validation
+        if command.reaction_command? && !command.for_initiative_embed?
+          return result
+        end
+
         if permissions_valid?
 
           # Make sure the command is valid before continuing
@@ -49,6 +57,8 @@ module InitTracker
           # When there are permission issues, do not display an error since the response will
           # inform the user or server owner about the issue
         end
+
+        InitTrackerLogger.log.debug {"BaseCommandProcessor.process: returning result: #{result}"}        
         return result
       end
 
@@ -218,7 +228,6 @@ module InitTracker
           valid = false
         end
 
-        InitTrackerLogger.log.debug("valid: #{valid}")
         if !valid
           if has_send_messages_permission?
             command.event.send_message(message)
