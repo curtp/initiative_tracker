@@ -4,6 +4,10 @@ module InitTracker
     class Server < ActiveRecord::Base
       has_many :inits, primary_key: :server_id
 
+      serialize :settings, Hash
+
+      after_initialize :add_missing_attributes
+
       def self.bot_joined_server(event)
         InitTrackerLogger.log.info("Server: bot just joined server: '#{event.server.name}' (ID: #{event.server.id}), owned by '#{event.server.owner.distinct}' the server count is now #{event.bot.servers.count}")
         # Look for an existing server with the ID of the server in the event.
@@ -28,6 +32,15 @@ module InitTracker
         end
         InitTrackerLogger.log.debug {"Server: server: #{server.inspect}"}
       end
+
+      private
+
+      # When the server loads, look for any missing attributes and add them
+      def add_missing_attributes
+        return if settings.has_key?(:in_place_edit)
+        settings[:in_place_edit] = true
+      end
+
     end
   end
 end

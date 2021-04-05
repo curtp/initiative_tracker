@@ -4,7 +4,7 @@ require "securerandom"
 module InitTracker
   module Models
     class Init < ActiveRecord::Base
-      belongs_to :server
+      belongs_to :server, primary_key: "server_id"
 
       ORDER_MULTIPLIER = 100
 

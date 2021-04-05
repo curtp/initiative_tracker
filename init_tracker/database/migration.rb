@@ -25,6 +25,7 @@ module InitTracker
             table.string :added_by_user
             table.datetime :removed_on
             table.string :removed_by_user
+            table.text :settings
             table.index :server_id
             table.index :removed_on
             table.timestamps
@@ -37,6 +38,10 @@ module InitTracker
 
         if !column_exists?(:inits, :message_id)
           add_column :inits, :message_id, :string, default: nil
+        end
+
+        if !column_exists?(:servers, :settings)
+          add_column :servers, :settings, :text, default: nil
         end
         
       end

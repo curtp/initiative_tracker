@@ -140,7 +140,7 @@ module InitTracker
 
       def edit_or_display_init(init)
         if command.display_init?
-          if init.message_id.present?
+          if init.message_id.present? && init.server.settings[:in_place_edit]
             message = command.event.channel.load_message(init.message_id)
             if message.present?
               InitTrackerLogger.log.debug {"Calling edit embed"}
